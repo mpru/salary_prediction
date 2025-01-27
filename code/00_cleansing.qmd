@@ -155,7 +155,7 @@ explore_missing(datos)
 
 ```{python}
 # Crear nueva columna con descripción completa
-datos['descr_compl'] = (
+datos['text'] = (
     "Age: " + datos['age'].astype(str) +
     " - Gender: " + datos['gender'].astype(str) +
     " - Education level: " + datos['educ'].astype(str) +
@@ -167,6 +167,21 @@ datos['descr_compl'] = (
 
 # Saving transformed data
 
+## Save clean data
+
 ```{python}
+datos = datos.drop(columns=["id"])
 datos.to_csv('../data/clean_data.csv', index = False)
+```
+
+## Create sample data
+
+These files will can be used as examples when using the app for making predictions with the trained models.
+
+```{python}
+# Seleccionar al azar 5 filas y columnas específicas
+sample_rows = datos.sample(n = 5, random_state = 200)
+sample_rows[['age', 'gender', 'educ', 'title_cat', 'exp']].to_csv('../data/sample_data_vars.csv', index = False)
+sample_rows[['text']].to_csv('../data/sample_data_onlytext.csv', index = False)
+sample_rows[['age', 'gender']].to_csv('../data/sample_data_wrong.csv', index = False)
 ```
