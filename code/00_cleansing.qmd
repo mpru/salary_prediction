@@ -1,5 +1,172 @@
 ---
 title: "Data cleansing and transformation"
-format: html
+format:
+    html:
+        embed-resources: true
 ---
 
+# Summary
+
+::: {.callout-tip}
+## Goal
+
+The **goal** of this script is to perform an initial inspection of the data, addressing missing values, inconsistencies in observations, reducing the number of levels in categorical variables, etc. The output will be a cleaned dataset to be used in subsequent stages of the analysis.
+:::
+
+::: {.callout-note}
+## Remarks
+
+- **Validation**
+
+    - Cases with missings in the response variable **salary** are omitted.
+    - It is identified that the minimum observed value for **salary** needs to be corrected.  
+    - Through a visual inspection of **"title"** (174 distinct values), it is deemed appropriate to transform it into a new variable, **"title_cat"**, which takes on 4 categories: "Junior," "Senior," "Leadership," or "Other," based on the words appearing in **"title"** and the rules described below.
+
+- **Missing values**
+
+    - Missing values for **age** are imputed using regular expressions, searching the job description for expressions like "years old".  
+    - Missing values for **education** are imputed using regular expressions, searching the job description for words like "Master's," "Bachelor's," or "PhD".  
+    - Missing values for **title_cat** are manually imputed (this can be improved) based on the job description.  
+    - Missing values for **gender** cannot be inferred from the job description.  
+    - Missing values for **job description** are not addressed either.
+
+- **Job description (text data)** 
+
+    - This column will be used to train a text regression model (a transformer-based model where the response variable is numerical, and the only explanatory variable is a text string).  
+    - As it is, it can be used, but to make better use of the available information, I prepend a string created from the values of the other variables to the beginning of the **job description** string.
+:::
+
+# Libraries and modules
+
+```{python}
+import sys
+import os
+sys.path.append(os.path.join(os.getcwd(), "code"))
+from modulos import explore_missing
+import pandas as pd
+import matplotlib.pyplot as plt
+```
+
+# Read and merge data sources
+
+```{python}
+# Read data
+people = pd.read_csv("../data/people.csv")
+descr = pd.read_csv("../data/descriptions.csv")
+salary = pd.read_csv("../data/salary.csv")
+
+# merge
+datos = (
+    people
+    .merge(descr, on="id", how="outer")
+    .merge(salary, on="id", how="outer")
+    .rename(columns={
+        "Age": "age",
+        "Gender": "gender",
+        "Education Level": "educ",
+        "Job Title": "title",
+        "Years of Experience": "exp",
+        "Description": "descr",
+        "Salary": "salary"
+    })
+    .dropna(subset=["salary"])  # Filtrar casos donde salary es NaN
+)
+
+datos.head()
+```
+
+# Validation
+
+## Categorical values
+
+```{python}
+# values in categorical variables
+datos['gender'].value_counts(dropna=False)
+datos['educ'].value_counts(dropna=False)
+datos['title'].value_counts(dropna=False).sort_values(ascending=False)
+
+# new column title_cat
+datos['title_cat'] = datos['title'].apply(
+    lambda x: ("Senior" if "Senior" in x else
+               "Junior" if "Junior" in x else
+               "Leadership" if any(word in x for word in ["Manager", "CEO", "Chief", "Director", "Principal", "Associate"]) else
+               "Other") if pd.notna(x) else pd.NA
+)
+```
+
+## Numerical variables
+
+```{python}
+# values in numerical variables
+datos.describe()
+```
+
+```{python}
+#| eval: false
+# salary validation
+plt.figure(figsize=(8, 6))
+plt.hist(datos['salary'], bins=30, color='blue', edgecolor='black', alpha=0.7)
+plt.title('Salary distribution')
+plt.xlabel('Salary')
+plt.ylabel('Frequency')
+plt.show()
+```
+
+```{python}
+# min de salario es muy pequeño, revisar
+datos.loc[datos['salary'] == datos['salary'].min()].values
+
+# se debe corregir este valor minimo de salario, por la descripcion puede ser 35000
+datos['salary'] = datos['salary'].replace(350, 35000) # todo: mejorar
+
+# por las dudas veo el maximo
+datos.loc[datos['salary'] == datos['salary'].max()]
+```
+
+# Missing values
+
+```{python}
+explore_missing(datos)
+```
+
+```{python}
+# Age imputation
+na_age_idx = datos['age'].isna()
+na_age_descr = datos.loc[na_age_idx, 'descr']
+edades = na_age_descr.str.extract(r"(\d{2})[- ]year[- ]old")[0].astype(float)
+datos.loc[na_age_idx, 'age'] = edades
+
+# Educ imputation
+datos['educ'] = datos.apply(
+    lambda row: "Master's" if pd.isna(row['educ']) and "Master" in row['descr'] else
+                "Bachelor's" if pd.isna(row['educ']) and "Bachelor" in row['descr'] else
+                "PhD" if pd.isna(row['educ']) and "Ph" in row['descr'] else
+                row['educ'],
+    axis=1
+)
+
+# Job Title imputation (manual, todo: mejorar)
+datos.loc[datos['title'].isna(), 'title_cat'] = ['Other', 'Leadership', 'Senior']
+
+explore_missing(datos)
+```
+
+# Job description (text data)
+
+```{python}
+# Crear nueva columna con descripción completa
+datos['descr_compl'] = (
+    "Age: " + datos['age'].astype(str) +
+    " - Gender: " + datos['gender'].astype(str) +
+    " - Education level: " + datos['educ'].astype(str) +
+    " - Title: " + datos['title'].astype(str) +
+    " - Years of experience: " + datos['exp'].astype(str) +
+    " - Job description: " + datos['descr']
+)
+```
+
+# Saving transformed data
+
+```{python}
+datos.to_csv('../data/clean_data.csv', index = False)
+```
