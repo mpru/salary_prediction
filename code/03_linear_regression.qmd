@@ -100,7 +100,9 @@ The model underestimates the response for outlier cases with very high real sala
 # Model fitting
 modelo =  smf.ols('salary ~ age + gender + educ + title_cat + exp', data = train_df).fit()
 modelo.summary()
+```
 
+```{python}
 # Save predictions in train data
 train_df['pred_salary'] = modelo.predict(train_df)
 
@@ -124,7 +126,7 @@ From the estimation of the coefficients of the model it can be concluded with a 
 
 - Each additional year of age increases salary by an amount between USD 1,427 and USD 3,654.
 - Each additional year of experience increases salary by an amount between USD 1,235 and USD 3,759.
-- Men earn between USD 4,834-11,200  more than women.
+- Men earn between USD 4,834 and USD 11,200  more than women.
 - Compared to having a Bachelor's degree, a Master's degree increases salary by an amount between USD 14,200 and USD 22,600, and a PhD increases it by an amount between USD 17,500 and USD 28,800.
 - Compared to job positions related to being "Junior", the increase in salaries lies between USD 8,390 and USD 18,800 for "Senior", and between USD 7155 and USD 20,900 for "Leadership". Other job positions don't differ significantly from "Junior".
 
