@@ -1,4 +1,265 @@
 ---
 title: "Exploratory analysis"
-format: html
+format:
+    html:
+        embed-resources: true
+code-fold: true
 ---
+
+# Summary
+
+::: {.callout-tip}
+## Goal
+
+The objective of this script is to conduct a brief exploratory analysis of the cleaned data to describe the distributions of the available variables, as well as the nature of the possible association between salary and each of the others, using figures and tables with numerical summaries.
+:::
+
+::: {.callout-note}
+## Remarks
+
+The dataset reveals that individuals are on average 37.4 years old with 10 years of experience, earning approximately USD 100k, with salary positively associated with age and experience, higher for males, those with higher education, and those in "Senior" or "Leadership" roles.
+:::
+
+
+```{python}
+import sys
+import os
+sys.path.append(os.path.join(os.getcwd(), "code"))
+from modulos import create_frequency_table
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import plotly.figure_factory as ff
+from plotly.subplots import make_subplots
+import plotly.tools as tls
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from IPython.display import display, HTML
+
+# Cargar los datos
+datos = pd.read_csv('../data/clean_data.csv')
+```
+
+# Exploration of each variable individually
+
+The individuals in the dataset are, on average, 37.4 years old, with 10.0 years of work experience and a salary of approximately USD 100k. The gender is evenly distributed. More than half have only achieved a Bachelor's degree level. About 60% hold a job with some level of hierarchy, as their job titles are related to the words "Senior" or "Leadership".
+
+```{python}
+#| fig-align: "center"
+# Crear una figura con 1 fila y 3 columnas
+plt.figure(figsize=(7, 2.5))
+
+# Primer gráfico de densidad para 'age'
+plt.subplot(1, 3, 1)  
+sns.kdeplot(datos['age'], fill=True, color="blue", cut = 0)
+plt.xlabel("Age")
+plt.ylabel("Density")
+# plt.grid(True)
+plt.gca().get_yaxis().set_visible(False)
+plt.xticks(ticks=(range(20, 60, 10)))
+
+# Segundo gráfico de densidad para 'exp'
+plt.subplot(1, 3, 2) 
+sns.kdeplot(datos['exp'], fill=True, color="blue", cut = 0)
+plt.xlabel("Years of experience")
+plt.ylabel("Density")
+# plt.grid(True)
+plt.gca().get_yaxis().set_visible(False)
+plt.xticks(ticks=(range(0, 30, 5)))
+
+# Tercer gráfico de densidad para 'salary'
+plt.subplot(1, 3, 3)  
+sns.kdeplot(datos['salary'], fill=True, color="blue", cut = 0)
+plt.xlabel("Salary (USD)")
+plt.ylabel("Density")
+# plt.grid(True)
+plt.gca().get_yaxis().set_visible(False)
+plt.xticks(ticks=(range(25000, 176000, 75000)))
+
+plt.suptitle("Distribution of age, years of experience and salary")
+plt.show()
+```
+
+
+```{python}
+# Figura de barras de variables categóricas
+fig_bar = make_subplots(rows=1, cols=3)
+
+# Calcular proporciones y agregar trazas
+
+# Diagrama de barras para 'gender'
+gender_counts = datos['gender'].value_counts(normalize=True) * 100
+fig_bar.add_trace(
+    go.Bar(x=gender_counts.index, y=gender_counts.values, marker_color='blue', name='Gender'),
+    row=1, col=1
+)
+
+# Diagrama de barras para 'educ'
+educ_counts = datos['educ'].value_counts(normalize=True) * 100
+fig_bar.add_trace(
+    go.Bar(x=educ_counts.index, y=educ_counts.values, marker_color='blue', name='Education'),
+    row=1, col=2
+)
+
+# Diagrama de barras para 'title_cat'
+title_cat_counts = datos['title_cat'].value_counts(normalize=True) * 100
+fig_bar.add_trace(
+    go.Bar(x=title_cat_counts.index, y=title_cat_counts.values, marker_color='blue', name='Title Category'),
+    row=1, col=3
+)
+
+# Actualizar el diseño
+fig_bar.update_layout(
+    title_text="Distribution of gender, education and word related to job title",
+    showlegend=False,
+    height=250,
+    width=750,
+    title_font=dict(size=18),
+    yaxis1_title_text="Percentage",
+    xaxis1_title_text = "Gender",
+    xaxis2_title_text = "Education",
+    xaxis3_title_text = "Job title related to",
+    yaxis1_ticksuffix = "%",
+    yaxis2_ticksuffix = "%",
+    yaxis3_ticksuffix = "%"
+)
+
+# Mostrar figura
+fig_bar.show()
+```
+
+**Statistics for quantitative variables**
+
+```{python}
+numeric_stats = datos[['age', 'exp', 'salary']].describe().transpose()
+numeric_stats['IQR'] = numeric_stats['75%'] - numeric_stats['25%']
+numeric_stats = numeric_stats[['min', 'max', 'mean', '50%', 'std', 'IQR']]
+numeric_stats.columns = ['Min', 'Max', 'Mean', 'Median', 'St. Dev.', 'IQR']
+
+# Mostrar el cuadro con estadísticas
+numeric_stats.style.format(precision=2)
+```
+
+**Frequency tables for categorical variables**
+
+```{python}
+# Crear tablas para cada variable categórica
+tabla_gender = create_frequency_table(datos["gender"], "Gender")
+tabla_educ = create_frequency_table(datos["educ"], "Education")
+tabla_title_cat = create_frequency_table(datos["title_cat"], "Job Title related to")
+```
+
+:::: {.columns}
+
+::: {.column width="31%"}
+```{python}
+HTML(tabla_gender.to_html(index=False))
+```
+:::
+
+::: {.column width="3.5%"}
+<!-- empty column to create gap -->
+:::
+
+::: {.column width="31%"}
+```{python}
+HTML(tabla_educ.to_html(index=False))
+```
+:::
+
+::: {.column width="3.5%"}
+<!-- empty column to create gap -->
+:::
+
+::: {.column width="31%"}
+```{python}
+HTML(tabla_title_cat.to_html(index=False))
+```
+:::
+
+::::
+
+# Relationship between salary and the other variables
+
+The salary is strongly and positively associated with both the person's age and years of experience. The salary distribution appears to be right-skewed for males compared to females. A clear salary increase is observed for higher education levels, as well as for positions linked to "Leadership" or "Senior".
+
+```{python}
+#| fig-align: "center"
+# Crear la figura con dos paneles (subplots)
+fig = make_subplots(rows=1, cols=2)
+
+# Agregar el gráfico de dispersión para 'salary' vs 'age'
+fig.add_trace(
+    go.Scatter(
+        x=datos['age'],
+        y=datos['salary'],
+        mode='markers',  # Puntos
+        marker=dict(color='blue', opacity=0.5),  # Color azul y transparencia
+    ),
+    row=1, col=1
+)
+
+# Agregar el gráfico de dispersión para 'salary' vs 'exp'
+fig.add_trace(
+    go.Scatter(
+        x=datos['exp'],
+        y=datos['salary'],
+        mode='markers',  # Puntos
+        marker=dict(color='blue', opacity=0.5),  # Color azul y transparencia
+    ),
+    row=1, col=2
+)
+
+# Actualizar los ejes y la configuración del gráfico
+fig.update_layout(
+    showlegend=False,  
+    xaxis_title="Age", 
+    yaxis_title="Salary", 
+    yaxis2_title="Salary", 
+    xaxis2_title="Years of Experience", 
+    # template="plotly_white",
+    title_text="Salary vs age and years of experience",
+    width = 600,
+    height = 250
+)
+
+# Mostrar la figura
+fig.show()
+```
+
+
+```{python}
+# Figura con boxplots de salary vs categorical variables
+fig_box = make_subplots(rows=3, cols=1)
+
+# Boxplot de 'salary' y 'gender'
+fig_box.add_trace(
+    go.Box(y=datos['gender'], x=datos['salary'], name='Gender', orientation = 'h', marker=dict(color='blue')),
+    row=1, col=1
+)
+
+# Boxplot de 'salary' y 'educ'
+fig_box.add_trace(
+    go.Box(y=datos['educ'], x=datos['salary'], name='Education',  orientation = 'h', marker=dict(color='blue')),
+    row=2, col=1
+)
+
+# Boxplot de 'salary' y 'title_cat'
+fig_box.add_trace(
+    go.Box(y=datos['title_cat'], x=datos['salary'], name='Title Category', orientation = 'h', marker=dict(color='blue')),
+    row=3, col=1
+)
+
+fig_box.update_layout(
+    title_text="Salary by gender, education and job title",
+    xaxis3_title="Salary",
+    yaxis1_title = "Gender",
+    yaxis2_title = "Education",
+    yaxis3_title = "Job title related to",
+    showlegend=False,
+    width = 450,
+    height = 450
+)
+fig_box.show()
+```
