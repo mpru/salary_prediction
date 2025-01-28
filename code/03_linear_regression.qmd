@@ -37,7 +37,7 @@ The goal of this script is to fit a multiple linear regression model to predict 
 
 <!-- mejorar: no hardcodear estos valores, tomarlos de los objetos de abajo -->
 
-**Resultados**
+**Results**
 
 - The overall model is highly significant ($F$-stat: 428.9, p-value < 0.0001).  
 - All predictors make significant contributions, as supported by ANOVA results.  
