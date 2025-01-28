@@ -1,4 +1,167 @@
 ---
 title: "Salary prediction using a linear regression model"
-format: html
+format:
+    html:
+        embed-resources: true
+code-fold: false
+execute: 
+  eval: true
 ---
+
+## Summary
+
+::: {.callout-tip}
+## Goal
+
+The goal of this script is to fit a multiple linear regression model to predict the response variable **salary** based on the remaining available variables. Additionally, statistical inference methodologies are applied to estimate and quantify the level of association between the predictors and the response, measuring the degree of confidence in the conclusions. The technical conditions that the model must meet to ensure valid conclusions are assessed, and finally, the model is used to make predictions on the test data to evaluate its performance.
+:::
+
+::: {.callout-note}
+## Remarks
+
+**Why Use Regression**
+
+- Although it is a classic and simple methodology, regression models are highly useful and flexible, offering the advantage of clearly interpreting the effect of predictors on the response variable, along with probabilistic conclusions.  
+- This model serves as a baseline for comparison, any more advanced technique should outperform it to be considered.
+
+**Performance in Predicting Salary**
+
+- The model shows a very good performance when predicting salaries with new data, with $R^2: 0.8912$, which indicates that 89.12% of the variance in the response (salary) is explained by the predictors in the model. 
+- On average, the salary predictions made by the model with new data differ from the actual values by USD 15,819.82.
+- Similar values of these metrics in train and test data indicate low risk of overfitting.
+
+|  **Set**  | **$R^2$** | **RSME** |
+|:---------:|:---------:|:--------:|
+| **Train** |   0.9231  | 13372,68 |
+|  **Test** |   0.8912  | 15819.82 |
+
+<!-- mejorar: no hardcodear estos valores, tomarlos de los objetos de abajo -->
+
+**Resultados**
+
+- The overall model is highly significant ($F$-stat: 428.9, p-value < 0.0001).  
+- All predictors make significant contributions, as supported by ANOVA results.  
+- No major violations of model assumptions were detected.
+- Key effects. On average, and holding all other factors constant:
+
+    - A Master's degree increases salary by $18,390, and a PhD increases it by $23,180 compared to individuals with a Bachelor's degree.
+    - Being in a Leadership role increases salary by $14,050, and being a Senior employee increases it by $13,590, compared to being a Junior.
+    - Each additional year of age increases salary by $2540.94 and each additional year of experience increases it by $2497.27
+    - Men earn $7999.69 more than women.
+:::
+
+## Methodology
+
+Multiple linear regression is a statistical method used to model the relationship between a numerical response variable (**Y**) and multiple explanatory variables (**X_1, X_2, ..., X_k**). The general form of the model is expressed as:
+
+$$Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \cdots + \beta_kX_k + \epsilon$$
+
+where $\beta_0$ represents the intercept, $\beta_1, \beta_2, ..., \beta_k$ are the regression coefficients associated with each explanatory variable, and $\epsilon$ is the error term, which captures the variability in the response variable that is not explained by the predictors.
+
+This model is widely used for both predictive and inferential purposes. Inferentially, the coefficients $\beta_i$ provide information about the strength and direction of the relationship between each explanatory variable and the response variable. Hypothesis testing can be performed to evaluate whether specific predictors have a statistically significant effect on the response, and confidence intervals can also be constructed to quantify the uncertainty around the estimated parameters.
+
+To ensure the validity of the model, certain technical conditions must be verified. These include linearity (the relationship between predictors and the response is linear), independence of errors, homoscedasticity (constant variance of the errors), and normality of the error terms. Diagnostic tools such as residual plots, normality tests, and quantile-quantile (Q-Q) plots are commonly used to assess these assumptions. 
+
+If the assumptions are not met, the model can be improved by proposing a more sophisticated structure (e.g., variable transformations, variance structures that do not assume independence or homoscedasticity, interactions between predictors, etc.). The model can also be estimated using techniques such as LASSO or Ridge, which generally provide estimators with lower variance.
+
+In this illustrative case, only a basic linear regression model is fitted, which still achieves excellent performance.
+
+## Libraries and data
+
+```{python}
+import sys
+import os
+sys.path.append(os.path.join(os.getcwd(), "code"))
+from modulos import metrics, analyze_residuals, scatter_plot_real_vs_pred
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+from statsmodels.stats.anova import anova_lm
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.metrics import root_mean_squared_error, r2_score
+import joblib
+
+# Cargar las particiones
+train_df = pd.read_csv('../data/train_set.csv')
+test_df = pd.read_csv('../data/test_set.csv')
+```
+
+## Training
+
+The model shows a very good performance, with $R^2: 0.923$, which indicates that 92.3% of the variance in the response (salary) is explained by the predictors in the model. 
+
+On average, the salary predictions made by the model differ from the actual values by USD 13,372.68.
+
+The model underestimates the response for outlier cases with very high real salaries.
+
+```{python}
+# Model fitting
+modelo =  smf.ols('salary ~ age + gender + educ + title_cat + exp', data = train_df).fit()
+modelo.summary()
+
+# Save predictions in train data
+train_df['pred_salary'] = modelo.predict(train_df)
+
+# Performance metrics
+# puede haber NaN en casos con datos faltantes en predictoras
+train_sin_na_pred = train_df.dropna(subset = 'pred_salary') 
+metrics(train_sin_na_pred['salary'], train_sin_na_pred['pred_salary'], "train")
+```
+
+```{python}
+scatter_plot_real_vs_pred(train_df, 'salary', 'pred_salary', "Training data", label = " - Salary (USD)")
+```
+
+## Inference
+
+The overall model is highly significant, as indicated by the F-test (F-stat: 428.9, p-value < 0.0001), which means the predictors collectively explain the dependent variable significantly better than a model without them.
+
+Additionally, each predictor individually makes a significant contribution to the model, considering the presence of the other variables, as indicated by the F-tests summarized in the ANOVA table.
+
+From the estimation of the coefficients of the model it can be concluded with a 95% of confidence that, holding other factors constant:
+
+- Each additional year of age increases salary by an amount between USD 1,427 and USD 3,654.
+- Each additional year of experience increases salary by an amount between USD 1,235 and USD 3,759.
+- Men earn between USD 4,834-11,200  more than women.
+- Compared to having a Bachelor's degree, a Master's degree increases salary by an amount between USD 14,200 and USD 22,600, and a PhD increases it by an amount between USD 17,500 and USD 28,800.
+- Compared to job positions related to being "Junior", the increase in salaries lies between USD 8,390 and USD 18,800 for "Senior", and between USD 7155 and USD 20,900 for "Leadership". Other job positions don't differ significantly from "Junior".
+
+```{python}
+print(f"Test Global F: {modelo.summary().tables[0].data[0][3]}")
+anova_lm(modelo)
+```
+
+## Evaluation of technical conditions
+
+An exploratory residual analysis was conducted, and no significant violations of the model assumptions were detected, allowing the inferential conclusions to be considered valid. The residual distribution appears to have slightly heavy tails, but this is minor.
+
+```{python}
+analyze_residuals(modelo)
+```
+
+## Prediction in test data
+
+The model shows a very good performance when predicting salaries with new data, with $R^2: 0.8912$, which indicates that 89.12% of the variance in the response (salary) is explained by the predictors in the model. 
+
+On average, the salary predictions made by the model with new data differ from the actual values by USD 15,819.82.
+
+As expected, these metrics are slightly worse than the ones for the train data, with no indication of overfitting.
+
+```{python}
+# Métricas para el conjunto de prueba
+test_df['pred_salary'] = modelo.predict(test_df)
+test_sin_na_pred = test_df.dropna(subset = 'pred_salary')
+metrics(test_sin_na_pred['salary'], test_sin_na_pred['pred_salary'], "test")
+```
+
+```{python}
+scatter_plot_real_vs_pred(test_df, 'salary', 'pred_salary', "Testing data", label = " - Salary (USD)")
+```
+
+## Saving the trained model
+
+```{python}
+joblib.dump(modelo, '../model_outputs/mod_reg_lin.pkl')
+```
