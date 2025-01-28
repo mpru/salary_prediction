@@ -11,7 +11,7 @@ code-fold: true
 ::: {.callout-tip}
 ## Goal
 
-The objective of this script is to conduct a brief exploratory analysis of the cleaned data to describe the distributions of the available variables, as well as the nature of the possible association between salary and each of the others, using figures and tables with numerical summaries.
+The goal of this script is to conduct a brief exploratory analysis of the cleaned data to describe the distributions of the available variables, as well as the nature of the possible association between salary and each of the others, using figures and tables with numerical summaries.
 :::
 
 ::: {.callout-note}
