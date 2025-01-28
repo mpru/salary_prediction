@@ -98,7 +98,7 @@ datos['title_cat'] = datos['title'].apply(
 
 ```{python}
 # values in numerical variables
-datos.describe()
+datos[['salary', 'age', 'exp']].describe()
 ```
 
 ```{python}
@@ -161,7 +161,7 @@ datos['text'] = (
     " - Education level: " + datos['educ'].astype(str) +
     " - Title: " + datos['title'].astype(str) +
     " - Years of experience: " + datos['exp'].astype(str) +
-    " - Job description: " + datos['descr']
+    " - Job description: " + datos['descr'].astype(str)
 )
 ```
 

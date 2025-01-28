@@ -27,7 +27,6 @@ The goal of this script is to split the available dataset into a training set (f
 ## Libraries and modules
 
 ```{python}
-#| eval: false
 import pandas as pd
 from sklearn.model_selection import train_test_split
 ```
@@ -35,7 +34,6 @@ from sklearn.model_selection import train_test_split
 ## Create partitions
 
 ```{python}
-#| eval: false
 # Load data
 datos = pd.read_csv('../data/clean_data.csv')
 
@@ -51,13 +49,6 @@ test.to_csv('../data/test_set.csv', index = False)
 ```
 
 ## Checking similar distribution for salary
-
-```{python}
-#| echo: false
-import pandas as pd
-train = pd.read_csv('../data/train_set.csv')
-test = pd.read_csv('../data/test_set.csv')
-```
 
 ```{python}
 train['salary'].describe()
