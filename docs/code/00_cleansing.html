@@ -4930,7 +4930,7 @@ Remarks
 </section>
 <section id="libraries-and-modules" class="level2">
 <h2 class="anchored" data-anchor-id="libraries-and-modules">Libraries and modules</h2>
-<div id="3e64aced" class="cell" data-execution_count="1">
+<div id="74cd7cec" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.path.join(os.getcwd(), <span class="st">&quot;code&quot;</span>))</span>
@@ -4941,7 +4941,7 @@ Remarks
 </section>
 <section id="read-and-merge-data-sources" class="level2">
 <h2 class="anchored" data-anchor-id="read-and-merge-data-sources">Read and merge data sources</h2>
-<div id="cf177874" class="cell" data-execution_count="2">
+<div id="d940ddef" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read data</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>people <span class="op">=</span> pd.read_csv(<span class="st">&quot;../data/people.csv&quot;</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>descr <span class="op">=</span> pd.read_csv(<span class="st">&quot;../data/descriptions.csv&quot;</span>)</span>
@@ -5050,7 +5050,7 @@ Remarks
 <h2 class="anchored" data-anchor-id="validation">Validation</h2>
 <section id="categorical-values" class="level3">
 <h3 class="anchored" data-anchor-id="categorical-values">Categorical values</h3>
-<div id="c63d58be" class="cell" data-execution_count="3">
+<div id="b00d2807" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># values in categorical variables</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>datos[<span class="st">&#39;gender&#39;</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>datos[<span class="st">&#39;educ&#39;</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>)</span>
@@ -5067,76 +5067,76 @@ Remarks
 </section>
 <section id="numerical-variables" class="level3">
 <h3 class="anchored" data-anchor-id="numerical-variables">Numerical variables</h3>
-<div id="b3c12b82" class="cell" data-execution_count="4">
+<div id="4f97ecad" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># values in numerical variables</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>datos[[<span class="st">&#39;salary&#39;</span>, <span class="st">&#39;age&#39;</span>, <span class="st">&#39;exp&#39;</span>]].describe().style.<span class="bu">format</span>(precision<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <style type="text/css">
 </style>
 
-<table id="T_7a165" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="T_c3238" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th"> </th>
-<th id="T_7a165_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">salary</th>
-<th id="T_7a165_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">age</th>
-<th id="T_7a165_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">exp</th>
+<th id="T_c3238_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">salary</th>
+<th id="T_c3238_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">age</th>
+<th id="T_c3238_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">exp</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_7a165_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">count</td>
-<td id="T_7a165_row0_col0" class="data row0 col0">373.00</td>
-<td id="T_7a165_row0_col1" class="data row0 col1">370.00</td>
-<td id="T_7a165_row0_col2" class="data row0 col2">373.00</td>
+<td id="T_c3238_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">count</td>
+<td id="T_c3238_row0_col0" class="data row0 col0">373.00</td>
+<td id="T_c3238_row0_col1" class="data row0 col1">370.00</td>
+<td id="T_c3238_row0_col2" class="data row0 col2">373.00</td>
 </tr>
 <tr class="even">
-<td id="T_7a165_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">mean</td>
-<td id="T_7a165_row1_col0" class="data row1 col0">100577.35</td>
-<td id="T_7a165_row1_col1" class="data row1 col1">37.44</td>
-<td id="T_7a165_row1_col2" class="data row1 col2">10.03</td>
+<td id="T_c3238_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">mean</td>
+<td id="T_c3238_row1_col0" class="data row1 col0">100577.35</td>
+<td id="T_c3238_row1_col1" class="data row1 col1">37.44</td>
+<td id="T_c3238_row1_col2" class="data row1 col2">10.03</td>
 </tr>
 <tr class="odd">
-<td id="T_7a165_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">std</td>
-<td id="T_7a165_row2_col0" class="data row2 col0">48240.01</td>
-<td id="T_7a165_row2_col1" class="data row2 col1">7.08</td>
-<td id="T_7a165_row2_col2" class="data row2 col2">6.56</td>
+<td id="T_c3238_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">std</td>
+<td id="T_c3238_row2_col0" class="data row2 col0">48240.01</td>
+<td id="T_c3238_row2_col1" class="data row2 col1">7.08</td>
+<td id="T_c3238_row2_col2" class="data row2 col2">6.56</td>
 </tr>
 <tr class="even">
-<td id="T_7a165_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">min</td>
-<td id="T_7a165_row3_col0" class="data row3 col0">350.00</td>
-<td id="T_7a165_row3_col1" class="data row3 col1">23.00</td>
-<td id="T_7a165_row3_col2" class="data row3 col2">0.00</td>
+<td id="T_c3238_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">min</td>
+<td id="T_c3238_row3_col0" class="data row3 col0">350.00</td>
+<td id="T_c3238_row3_col1" class="data row3 col1">23.00</td>
+<td id="T_c3238_row3_col2" class="data row3 col2">0.00</td>
 </tr>
 <tr class="odd">
-<td id="T_7a165_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">25%</td>
-<td id="T_7a165_row4_col0" class="data row4 col0">55000.00</td>
-<td id="T_7a165_row4_col1" class="data row4 col1">31.25</td>
-<td id="T_7a165_row4_col2" class="data row4 col2">4.00</td>
+<td id="T_c3238_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">25%</td>
+<td id="T_c3238_row4_col0" class="data row4 col0">55000.00</td>
+<td id="T_c3238_row4_col1" class="data row4 col1">31.25</td>
+<td id="T_c3238_row4_col2" class="data row4 col2">4.00</td>
 </tr>
 <tr class="even">
-<td id="T_7a165_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">50%</td>
-<td id="T_7a165_row5_col0" class="data row5 col0">95000.00</td>
-<td id="T_7a165_row5_col1" class="data row5 col1">36.00</td>
-<td id="T_7a165_row5_col2" class="data row5 col2">9.00</td>
+<td id="T_c3238_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">50%</td>
+<td id="T_c3238_row5_col0" class="data row5 col0">95000.00</td>
+<td id="T_c3238_row5_col1" class="data row5 col1">36.00</td>
+<td id="T_c3238_row5_col2" class="data row5 col2">9.00</td>
 </tr>
 <tr class="odd">
-<td id="T_7a165_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">75%</td>
-<td id="T_7a165_row6_col0" class="data row6 col0">140000.00</td>
-<td id="T_7a165_row6_col1" class="data row6 col1">44.00</td>
-<td id="T_7a165_row6_col2" class="data row6 col2">15.00</td>
+<td id="T_c3238_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">75%</td>
+<td id="T_c3238_row6_col0" class="data row6 col0">140000.00</td>
+<td id="T_c3238_row6_col1" class="data row6 col1">44.00</td>
+<td id="T_c3238_row6_col2" class="data row6 col2">15.00</td>
 </tr>
 <tr class="even">
-<td id="T_7a165_level0_row7" class="row_heading level0 row7" data-quarto-table-cell-role="th">max</td>
-<td id="T_7a165_row7_col0" class="data row7 col0">250000.00</td>
-<td id="T_7a165_row7_col1" class="data row7 col1">53.00</td>
-<td id="T_7a165_row7_col2" class="data row7 col2">25.00</td>
+<td id="T_c3238_level0_row7" class="row_heading level0 row7" data-quarto-table-cell-role="th">max</td>
+<td id="T_c3238_row7_col0" class="data row7 col0">250000.00</td>
+<td id="T_c3238_row7_col1" class="data row7 col1">53.00</td>
+<td id="T_c3238_row7_col2" class="data row7 col2">25.00</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="77a4deda" class="cell" data-execution_count="5">
+<div id="2d310b8d" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># salary validation</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>plt.hist(datos[<span class="st">&#39;salary&#39;</span>], bins<span class="op">=</span><span class="dv">30</span>, color<span class="op">=</span><span class="st">&#39;blue&#39;</span>, edgecolor<span class="op">=</span><span class="st">&#39;black&#39;</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
@@ -5145,7 +5145,7 @@ Remarks
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">&#39;Frequency&#39;</span>)</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="61305005" class="cell" data-execution_count="6">
+<div id="5c8a9334" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># min de salario es muy pequeño, revisar</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>datos.loc[datos[<span class="st">&#39;salary&#39;</span>] <span class="op">==</span> datos[<span class="st">&#39;salary&#39;</span>].<span class="bu">min</span>()].values</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -5208,7 +5208,7 @@ Remarks
 </section>
 <section id="missing-values" class="level2">
 <h2 class="anchored" data-anchor-id="missing-values">Missing values</h2>
-<div id="cbecda87" class="cell" data-execution_count="7">
+<div id="11cba436" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>explore_missing(datos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Complete cases: 358
@@ -5228,7 +5228,7 @@ Missing values by column:
 8  title_cat              3            0.008043</code></pre>
 </div>
 </div>
-<div id="a143ddaf" class="cell" data-execution_count="8">
+<div id="258e3afc" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Age imputation</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>na_age_idx <span class="op">=</span> datos[<span class="st">&#39;age&#39;</span>].isna()</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>na_age_descr <span class="op">=</span> datos.loc[na_age_idx, <span class="st">&#39;descr&#39;</span>]</span>
@@ -5269,7 +5269,7 @@ Missing values by column:
 </section>
 <section id="job-description-text-data" class="level2">
 <h2 class="anchored" data-anchor-id="job-description-text-data">Job description (text data)</h2>
-<div id="de2e25b7" class="cell" data-execution_count="9">
+<div id="a8651ce6" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear nueva columna con descripción completa</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>datos[<span class="st">&#39;text&#39;</span>] <span class="op">=</span> (</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Age: &quot;</span> <span class="op">+</span> datos[<span class="st">&#39;age&#39;</span>].astype(<span class="bu">str</span>) <span class="op">+</span></span>
@@ -5285,7 +5285,7 @@ Missing values by column:
 <h2 class="anchored" data-anchor-id="saving-transformed-data">Saving transformed data</h2>
 <section id="save-clean-data" class="level3">
 <h3 class="anchored" data-anchor-id="save-clean-data">Save clean data</h3>
-<div id="3052f2e3" class="cell" data-execution_count="10">
+<div id="d2201625" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>datos <span class="op">=</span> datos.drop(columns<span class="op">=</span>[<span class="st">&quot;id&quot;</span>])</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>datos.to_csv(<span class="st">&#39;../data/clean_data.csv&#39;</span>, index <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -5293,7 +5293,7 @@ Missing values by column:
 <section id="create-sample-data" class="level3">
 <h3 class="anchored" data-anchor-id="create-sample-data">Create sample data</h3>
 <p>These files will can be used as examples when using the app for making predictions with the trained models.</p>
-<div id="b95e7856" class="cell" data-execution_count="11">
+<div id="d28d4e21" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seleccionar al azar 5 filas y columnas específicas</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>sample_rows <span class="op">=</span> datos.sample(n <span class="op">=</span> <span class="dv">5</span>, random_state <span class="op">=</span> <span class="dv">200</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>sample_rows[[<span class="st">&#39;age&#39;</span>, <span class="st">&#39;gender&#39;</span>, <span class="st">&#39;educ&#39;</span>, <span class="st">&#39;title_cat&#39;</span>, <span class="st">&#39;exp&#39;</span>]].to_csv(<span class="st">&#39;../data/sample_data_vars.csv&#39;</span>, index <span class="op">=</span> <span class="va">False</span>)</span>
