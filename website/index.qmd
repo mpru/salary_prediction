@@ -7,9 +7,23 @@ date-format: "MMMM, YYYY"
 
 ## About
 
-This website presents a supervised learning problem where the goal is to predict workers' salaries. 
+This platform showcases a supervised learning project aimed at predicting workers' salaries using various data science techniques.
 
-que hay en cada pestaña
-reprocibilidad, environment
-shiny, quarto
+## Project Overview
 
+The project involves a comprehensive analysis of factors influencing salary levels, employing data cleaning, exploratory data analysis, and the development of predictive models. The goal is to accurately forecast salaries based on relevant features.
+
+## Website Structure
+
+- **Insights**: Dive into data exploration, including data cleaning and exploratory analysis, to understand the dataset's intricacies.
+- **Models**: Explore the modeling process, featuring train/test data splitting, implementation of linear regression and large language models, and a comparison of their performances.
+- **Predictions for New Data**: Apply the trained models to new data inputs to predict potential salary outcomes.
+
+## Good Practices in Project Development
+
+This project follows good practices to ensure reproducibility and maintainability:
+
+- **Reproducibility**: All steps are documented and structured to be easily replicable.
+- **Version Control**: The entire project is managed using Git and hosted on GitHub.
+- **Environment Management**: A Conda environment is provided to guarantee dependency consistency.
+- **Quarto for Documentation**: Instead of traditional Jupyter notebooks, Quarto has been used for better organization and presentation of results.

@@ -4896,14 +4896,14 @@ Remarks
 </section>
 <section id="libraries-and-modules" class="level2">
 <h2 class="anchored" data-anchor-id="libraries-and-modules">Libraries and modules</h2>
-<div id="1505fe69" class="cell" data-execution_count="1">
+<div id="c651a07a" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="create-partitions" class="level2">
 <h2 class="anchored" data-anchor-id="create-partitions">Create partitions</h2>
-<div id="a3c122f8" class="cell" data-execution_count="2">
+<div id="a4332df1" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>datos <span class="op">=</span> pd.read_csv(<span class="st">&#39;../data/clean_data.csv&#39;</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -4920,7 +4920,7 @@ Remarks
 </section>
 <section id="checking-similar-distribution-for-salary" class="level2">
 <h2 class="anchored" data-anchor-id="checking-similar-distribution-for-salary">Checking similar distribution for salary</h2>
-<div id="f6e4194e" class="cell" data-execution_count="3">
+<div id="bd6ec71f" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>train[<span class="st">&#39;salary&#39;</span>].describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>count       298.000000
@@ -4934,7 +4934,7 @@ max      250000.000000
 Name: salary, dtype: float64</code></pre>
 </div>
 </div>
-<div id="456e874c" class="cell" data-execution_count="4">
+<div id="955263a3" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>test[<span class="st">&#39;salary&#39;</span>].describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>count        75.000000

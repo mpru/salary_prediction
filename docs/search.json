@@ -214,14 +214,35 @@
     "href": "website/index.html",
     "title": "Salary Prediction: a Data Science Sample Project",
     "section": "",
-    "text": "This website presents a supervised learning problem where the goal is to predict workers’ salaries.\nque hay en cada pestaña reprocibilidad, environment shiny, quarto"
+    "text": "This platform showcases a supervised learning project aimed at predicting workers’ salaries using various data science techniques."
   },
   {
     "objectID": "website/index.html#about",
     "href": "website/index.html#about",
     "title": "Salary Prediction: a Data Science Sample Project",
     "section": "",
-    "text": "This website presents a supervised learning problem where the goal is to predict workers’ salaries.\nque hay en cada pestaña reprocibilidad, environment shiny, quarto"
+    "text": "This platform showcases a supervised learning project aimed at predicting workers’ salaries using various data science techniques."
+  },
+  {
+    "objectID": "website/index.html#project-overview",
+    "href": "website/index.html#project-overview",
+    "title": "Salary Prediction: a Data Science Sample Project",
+    "section": "Project Overview",
+    "text": "Project Overview\nThe project involves a comprehensive analysis of factors influencing salary levels, employing data cleaning, exploratory data analysis, and the development of predictive models. The goal is to accurately forecast salaries based on relevant features."
+  },
+  {
+    "objectID": "website/index.html#website-structure",
+    "href": "website/index.html#website-structure",
+    "title": "Salary Prediction: a Data Science Sample Project",
+    "section": "Website Structure",
+    "text": "Website Structure\n\nInsights: Dive into data exploration, including data cleaning and exploratory analysis, to understand the dataset’s intricacies.\nModels: Explore the modeling process, featuring train/test data splitting, implementation of linear regression and large language models, and a comparison of their performances.\nPredictions for New Data: Apply the trained models to new data inputs to predict potential salary outcomes."
+  },
+  {
+    "objectID": "website/index.html#good-practices-in-project-development",
+    "href": "website/index.html#good-practices-in-project-development",
+    "title": "Salary Prediction: a Data Science Sample Project",
+    "section": "Good Practices in Project Development",
+    "text": "Good Practices in Project Development\nThis project follows good practices to ensure reproducibility and maintainability:\n\nReproducibility: All steps are documented and structured to be easily replicable.\nVersion Control: The entire project is managed using Git and hosted on GitHub.\nEnvironment Management: A Conda environment is provided to guarantee dependency consistency.\nQuarto for Documentation: Instead of traditional Jupyter notebooks, Quarto has been used for better organization and presentation of results."
   },
   {
     "objectID": "code/05_comparisons.html",
@@ -319,7 +340,7 @@
     "href": "code/03_linear_regression.html#training",
     "title": "Salary prediction using a linear regression model",
     "section": "Training",
-    "text": "Training\nThe model shows a very good performance, with \\(R^2: 0.923\\), which indicates that 92.3% of the variance in the response (salary) is explained by the predictors in the model.\nOn average, the salary predictions made by the model differ from the actual values by USD 13,372.68.\nThe model underestimates the response for outlier cases with very high real salaries.\n\n# Model fitting\nmodelo =  smf.ols('salary ~ age + gender + educ + title_cat + exp', data = train_df).fit()\nmodelo.summary()\n\n\nOLS Regression Results\n\n\nDep. Variable:\nsalary\nR-squared:\n0.923\n\n\nModel:\nOLS\nAdj. R-squared:\n0.921\n\n\nMethod:\nLeast Squares\nF-statistic:\n428.9\n\n\nDate:\nWed, 29 Jan 2025\nProb (F-statistic):\n2.12e-154\n\n\nTime:\n16:02:37\nLog-Likelihood:\n-3221.4\n\n\nNo. Observations:\n295\nAIC:\n6461.\n\n\nDf Residuals:\n286\nBIC:\n6494.\n\n\nDf Model:\n8\n\n\n\n\nCovariance Type:\nnonrobust\n\n\n\n\n\n\n\n\n\n\n\ncoef\nstd err\nt\nP&gt;|t|\n[0.025\n0.975]\n\n\nIntercept\n-4.022e+04\n1.54e+04\n-2.616\n0.009\n-7.05e+04\n-9962.527\n\n\ngender[T.Male]\n7998.6856\n1607.752\n4.975\n0.000\n4834.158\n1.12e+04\n\n\neduc[T.Master's]\n1.839e+04\n2115.086\n8.695\n0.000\n1.42e+04\n2.26e+04\n\n\neduc[T.PhD]\n2.318e+04\n2873.911\n8.066\n0.000\n1.75e+04\n2.88e+04\n\n\ntitle_cat[T.Leadership]\n1.405e+04\n3501.546\n4.012\n0.000\n7155.489\n2.09e+04\n\n\ntitle_cat[T.Other]\n375.2237\n2746.080\n0.137\n0.891\n-5029.868\n5780.315\n\n\ntitle_cat[T.Senior]\n1.359e+04\n2640.661\n5.146\n0.000\n8390.865\n1.88e+04\n\n\nage\n2540.9370\n565.687\n4.492\n0.000\n1427.499\n3654.375\n\n\nexp\n2497.2653\n641.125\n3.895\n0.000\n1235.344\n3759.187\n\n\n\n\n\n\n\n\nOmnibus:\n56.291\nDurbin-Watson:\n1.626\n\n\nProb(Omnibus):\n0.000\nJarque-Bera (JB):\n289.301\n\n\nSkew:\n0.642\nProb(JB):\n1.51e-63\n\n\nKurtosis:\n7.678\nCond. No.\n774.\n\n\n\nNotes:[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n\n\n\n# Save predictions in train data\ntrain_df['pred_salary'] = modelo.predict(train_df)\n\n# Performance metrics\n# puede haber NaN en casos con datos faltantes en predictoras\ntrain_sin_na_pred = train_df.dropna(subset = 'pred_salary') \nmetrics(train_sin_na_pred['salary'], train_sin_na_pred['pred_salary'], \"train\")\n\nMétricas para train:\n - R2: 0.9231\n - RMSE: 13372.6827\n\n\n\n\nscatter_plot_real_vs_pred(train_df, 'salary', 'pred_salary', \"Training data\", label = \" - Salary (USD)\")"
+    "text": "Training\nThe model shows a very good performance, with \\(R^2: 0.923\\), which indicates that 92.3% of the variance in the response (salary) is explained by the predictors in the model.\nOn average, the salary predictions made by the model differ from the actual values by USD 13,372.68.\nThe model underestimates the response for outlier cases with very high real salaries.\n\n# Model fitting\nmodelo =  smf.ols('salary ~ age + gender + educ + title_cat + exp', data = train_df).fit()\nmodelo.summary()\n\n\nOLS Regression Results\n\n\nDep. Variable:\nsalary\nR-squared:\n0.923\n\n\nModel:\nOLS\nAdj. R-squared:\n0.921\n\n\nMethod:\nLeast Squares\nF-statistic:\n428.9\n\n\nDate:\nWed, 29 Jan 2025\nProb (F-statistic):\n2.12e-154\n\n\nTime:\n16:33:36\nLog-Likelihood:\n-3221.4\n\n\nNo. Observations:\n295\nAIC:\n6461.\n\n\nDf Residuals:\n286\nBIC:\n6494.\n\n\nDf Model:\n8\n\n\n\n\nCovariance Type:\nnonrobust\n\n\n\n\n\n\n\n\n\n\n\ncoef\nstd err\nt\nP&gt;|t|\n[0.025\n0.975]\n\n\nIntercept\n-4.022e+04\n1.54e+04\n-2.616\n0.009\n-7.05e+04\n-9962.527\n\n\ngender[T.Male]\n7998.6856\n1607.752\n4.975\n0.000\n4834.158\n1.12e+04\n\n\neduc[T.Master's]\n1.839e+04\n2115.086\n8.695\n0.000\n1.42e+04\n2.26e+04\n\n\neduc[T.PhD]\n2.318e+04\n2873.911\n8.066\n0.000\n1.75e+04\n2.88e+04\n\n\ntitle_cat[T.Leadership]\n1.405e+04\n3501.546\n4.012\n0.000\n7155.489\n2.09e+04\n\n\ntitle_cat[T.Other]\n375.2237\n2746.080\n0.137\n0.891\n-5029.868\n5780.315\n\n\ntitle_cat[T.Senior]\n1.359e+04\n2640.661\n5.146\n0.000\n8390.865\n1.88e+04\n\n\nage\n2540.9370\n565.687\n4.492\n0.000\n1427.499\n3654.375\n\n\nexp\n2497.2653\n641.125\n3.895\n0.000\n1235.344\n3759.187\n\n\n\n\n\n\n\n\nOmnibus:\n56.291\nDurbin-Watson:\n1.626\n\n\nProb(Omnibus):\n0.000\nJarque-Bera (JB):\n289.301\n\n\nSkew:\n0.642\nProb(JB):\n1.51e-63\n\n\nKurtosis:\n7.678\nCond. No.\n774.\n\n\n\nNotes:[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n\n\n\n# Save predictions in train data\ntrain_df['pred_salary'] = modelo.predict(train_df)\n\n# Performance metrics\n# puede haber NaN en casos con datos faltantes en predictoras\ntrain_sin_na_pred = train_df.dropna(subset = 'pred_salary') \nmetrics(train_sin_na_pred['salary'], train_sin_na_pred['pred_salary'], \"train\")\n\nMétricas para train:\n - R2: 0.9231\n - RMSE: 13372.6827\n\n\n\n\nscatter_plot_real_vs_pred(train_df, 'salary', 'pred_salary', \"Training data\", label = \" - Salary (USD)\")"
   },
   {
     "objectID": "code/03_linear_regression.html#inference",
