@@ -1,0 +1,5 @@
+---
+title: "Salary prediction: a data science sample project"
+---
+
+work in progress

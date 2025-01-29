@@ -1,3 +1,4 @@
 model_outputs/
 test_trainer/
 code/*.html
+/.quarto/

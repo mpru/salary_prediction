@@ -1,0 +1,17 @@
+---
+title: "titulo"
+subtitle: "subtitulo"
+author: "Marcos Prunello"
+format: revealjs
+footer: "[Back to home](index.html)"
+---
+
+# portada1 {background="#43464B"}
+
+## diapo1
+
+contenido
+
+## diapo2
+
+contenido

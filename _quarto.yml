@@ -1,0 +1,63 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - website/index.qmd
+    - website/presentation.qmd
+    - code/00_cleansing.qmd
+    - code/01_exploratory_analysis.qmd
+    - code/02_train_test_split.qmd
+    - code/03_linear_regression.qmd
+    - code/04_transformers.qmd
+    - code/05_comparisons.qmd
+    - website/shiny_embed.qmd
+
+# se renderizan todos los qmd en el parent folder y en orden alfabetico por folder/file name
+# si no aclaro el listado ordenado en render, empieza por otros y los enlaces quedan mal.
+
+website:
+  title: "Salary Prediction"
+  page-navigation: true
+  page-footer: "Developed by Marcos Prunello"
+  repo-url: https://github.com/mpru/salary_prediction
+  repo-actions: [edit, source, issue]
+  navbar:
+    search: true
+    tools:
+      - icon: github
+        href: https://github.com/mpru/
+      - icon: linkedin
+        href: https://www.linkedin.com/in/mrqtsp/
+      - icon: twitter-x
+        href: https://twitter.com/mrqtsp
+    left:
+      - text: "Home"
+        href: website/index.qmd
+      - text: "Insights"
+        href: website/presentation.qmd
+      - text: "Data exploration"
+        menu:
+          - href: code/00_cleansing.qmd
+            text: "Data cleaning"
+          - href: code/01_exploratory_analysis.qmd
+            text: "Exploratory analysis"
+      - text: "Models"
+        menu:
+          - href: code/02_train_test_split.qmd
+            text: "Train/test split"
+          - href: code/03_linear_regression.qmd
+            text: "Linear regression model"
+          - href: code/04_transformers.qmd
+            text: "Large language model"
+          - href: code/05_comparisons.qmd
+            text: "Models performance comparison"
+      - text: "Predictions for new data"
+        href: website/shiny_embed.qmd
+
+format:
+  html:
+    theme: sandstone
+    css: website/styles.css
+    toc: true
+
+

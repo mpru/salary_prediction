@@ -6,7 +6,7 @@ format:
 code-fold: true
 ---
 
-# Summary
+## Summary
 
 ::: {.callout-tip}
 ## Goal
@@ -41,7 +41,7 @@ from IPython.display import display, HTML
 datos = pd.read_csv('../data/clean_data.csv')
 ```
 
-# Exploration of each variable individually
+## Exploration of each variable individually
 
 The individuals in the dataset are, on average, 37.4 years old, with 10.0 years of work experience and a salary of approximately USD 100k. The gender is evenly distributed. More than half have only achieved a Bachelor's degree level. About 60% hold a job with some level of hierarchy, as their job titles are related to the words "Senior" or "Leadership".
 
@@ -180,7 +180,7 @@ HTML(tabla_title_cat.to_html(index=False))
 
 ::::
 
-# Relationship between salary and the other variables
+## Relationship between salary and the other variables
 
 The salary is strongly and positively associated with both the person's age and years of experience. The salary distribution appears to be right-skewed for males compared to females. A clear salary increase is observed for higher education levels, as well as for positions linked to "Leadership" or "Senior".
 

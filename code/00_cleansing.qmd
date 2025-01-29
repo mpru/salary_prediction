@@ -5,7 +5,7 @@ format:
         embed-resources: true
 ---
 
-# Summary
+## Summary
 
 ::: {.callout-tip}
 ## Goal
@@ -36,7 +36,7 @@ The **goal** of this script is to perform an initial inspection of the data, add
     - As it is, it can be used, but to make better use of the available information, I prepend a string created from the values of the other variables to the beginning of the **job description** string.
 :::
 
-# Libraries and modules
+## Libraries and modules
 
 ```{python}
 import sys
@@ -47,7 +47,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 ```
 
-# Read and merge data sources
+## Read and merge data sources
 
 ```{python}
 # Read data
@@ -75,9 +75,9 @@ datos = (
 datos.head()
 ```
 
-# Validation
+## Validation
 
-## Categorical values
+### Categorical values
 
 ```{python}
 # values in categorical variables
@@ -94,11 +94,11 @@ datos['title_cat'] = datos['title'].apply(
 )
 ```
 
-## Numerical variables
+### Numerical variables
 
 ```{python}
 # values in numerical variables
-datos[['salary', 'age', 'exp']].describe()
+datos[['salary', 'age', 'exp']].describe().style.format(precision=2)
 ```
 
 ```{python}
@@ -123,7 +123,7 @@ datos['salary'] = datos['salary'].replace(350, 35000) # todo: mejorar
 datos.loc[datos['salary'] == datos['salary'].max()]
 ```
 
-# Missing values
+## Missing values
 
 ```{python}
 explore_missing(datos)
@@ -151,7 +151,7 @@ datos.loc[datos['title'].isna(), 'title_cat'] = ['Other', 'Leadership', 'Senior'
 explore_missing(datos)
 ```
 
-# Job description (text data)
+## Job description (text data)
 
 ```{python}
 # Crear nueva columna con descripción completa
@@ -165,16 +165,16 @@ datos['text'] = (
 )
 ```
 
-# Saving transformed data
+## Saving transformed data
 
-## Save clean data
+### Save clean data
 
 ```{python}
 datos = datos.drop(columns=["id"])
 datos.to_csv('../data/clean_data.csv', index = False)
 ```
 
-## Create sample data
+### Create sample data
 
 These files will can be used as examples when using the app for making predictions with the trained models.
 

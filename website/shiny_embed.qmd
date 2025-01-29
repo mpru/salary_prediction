@@ -1,0 +1,12 @@
+---
+title: "Making salary predictions for new cases"
+---
+
+::: {.callout-caution}
+This page might take a minute to load as the server and environment get ready for making new predictions.
+:::
+
+```{=html}
+ <iframe id="shiny" src="https://mpru.shinyapps.io/shiny_salary1/" style="border: none; width: 100%; height: 720px" frameborder="0"></iframe>
+```
+
