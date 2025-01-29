@@ -1,4 +1,294 @@
 ---
 title: "Salary prediction using Large Language Models (Transformers)"
-format: html
+format:
+    html:
+        embed-resources: true
+code-fold: false
+execute: 
+  eval: true
 ---
+
+## Summary
+
+::: {.callout-tip}
+## Goal
+
+The goal of this script is to fit a Text-Based Regression model to predict salary based on the job description provided by each individual. For this, the pre-trained DistilBERT model, a Large Language Model (LLM) based on the Transformer architecture, is retrieved from the [Hugging Face](https://huggingface.co/distilbert/distilbert-base-uncased) platform. The model is fine-tuned on the training data and its performance is evaluated on the test data.
+:::
+
+::: {.callout-note}
+## Remarks
+
+**Why Use a LLM**
+
+Using a LLM like DistilBERT could be a good idea for this problem because it has the ability to capture complex patterns and relationships in text data, which may contain valuable insights for predicting salary beyond traditional numerical features.
+
+**Performance in Predicting Salary**
+
+- The model shows a very good performance when predicting salaries with new data, with $R^2: 0.8836$, which indicates that 88.36% of the variance in the response (salary) is explained by the predictors in the model. 
+- On average, the salary predictions made by the model with new data differ from the actual values by USD 16,404.05.
+- Similar values of these metrics in train and test data indicate low risk of overfitting.
+
+|  **Set**  | **$R^2$** | **RSME** |
+|:---------:|:---------:|:--------:|
+| **Train** |   0.9094  | 14445.76 |
+|  **Test** |   0.8836  | 16404.05 |
+
+<!-- mejorar: no hardcodear estos valores, tomarlos de los objetos de abajo -->
+
+**Takeaway points**
+
+- Pretrained models like DistilBERT simplify text-based predictions by reducing manual feature engineering. This implementation is just an example of what can be achieved with such methodologies.
+- Hyperparameter tuning (learning rate, batch size, epochs, etc.) and alternative preprocessing strategies could enhance performance but were not explored, as this was a proof of concept.
+- With no optimization or validation, DistilBERT performs similarly to linear regression in this case, likely due to the structured nature of salary prediction and the limited dataset size.  
+:::
+
+## Methodology
+
+### Approaches to Text-Based Regression
+
+The main purpose of this problem is to predict salary, a continuous variable. As predictors, we have a combination of traditional features (such as age, experience, education, etc.) and a textual feature, which is the job description provided by each individual. While traditional regression models or other supevised machine learning techniques can use numerical and categorical variables effectively, they can't use text data unless it is processed before to create new features. However, the available textual job description likely contains important information as it is, and could improve predictive performance, making it an essential variable to consider. 
+
+Hence, to predict a continuous variable from text data, two main approaches can be considered:  
+
+1. **Traditional Methods**  
+   This approach involves processing the text by tokenizing it, cleaning it (e.g., removing stopwords or punctuation), and extracting features based on term statistics such as word counts, term frequencies, or TF-IDF (term frequency-inverse document frequency). These features can then be fed into traditional regression models or machine learning algorithms.
+
+2. **Modern Approach Using Large Language Models (LLMs)**  
+   LLMs represent a more recent and powerful method for working with textual data. These models, trained on massive text corpora, can generate dense vector representations (embeddings) of text that capture its semantic meaning. LLMs, such as BERT (Bidirectional Encoder Representations from Transformers), are particularly effective because they utilize deep learning architectures to process and understand context in language.
+
+The later is the approach followed for this problem.
+
+### Transformer Architecture and DistilBERT
+
+The transformer architecture, introduced by Vaswani et al. (2017), revolutionized the field of natural language processing (NLP) with its encoder-decoder design. The **encoder** of a Transformer is composed of multiple layers of self-attention mechanisms and feed-forward neural networks, designed to process input sequences and generate a contextualized representation for each token by considering its relationship with all other tokens in the sequence. The **decoder**, on the other hand, also uses self-attention but incorporates an additional mechanism called **encoder-decoder attention**, which allows it to focus on relevant parts of the encoder's output while generating an output sequence token by token, typically used in tasks like text generation or translation. Together, these components enable Transformers to effectively model both input and output sequences with contextual understanding.
+
+BERT, one of the most prominent models built on transformers, uses only the encoder portion of the architecture. It processes text bidirectionally, meaning it considers both the left and right contexts of a word in a sentence simultaneously. This makes it well-suited for various NLP tasks, including classification, question answering, and regression.  
+
+DistilBERT, a lighter and faster version of BERT, is a distilled model that retains approximately 97% of BERT's performance while being smaller and more computationally efficient. DistilBERT is particularly useful in tasks requiring large-scale deployment or limited computational resources. In this problem, I used DistilBERT for the text regression task, leveraging its pretrained embeddings and fine-tuning capabilities.
+
+### Steps for Model Implementation
+
+To implement a text regression model with DistilBERT, I followed these steps:
+
+1. **Model and Tokenizer Selection**  
+   The pretrained DistilBERT model and its corresponding tokenizer is downloaded from the Hugging Face Model Hub. The tokenizer converts raw text into input tokens, which are numerical representations that the model can process.  
+
+2. **Data Preprocessing**  
+   The job descriptions were tokenized using the DistilBERT tokenizer, ensuring proper formatting (e.g., truncation and padding) to meet the model's input size requirements.  
+
+3. **Fine-Tuning**  
+   DistilBERT is fine-tuned on our dataset to adapt the pretrained model to the specific task of predicting salary. The output layer was modified to produce a single continuous value corresponding to salary. This required using a regression loss function, such as Mean Squared Error (MSE).  
+
+4. **Training**  
+   The model was trained with the job descriptions as input and the corresponding salaries as the target variable. Traditional features (age, experience, education, etc.) were integrated into the model as text concatenated to the biginning of the job description string.
+
+5. **Evaluation**  
+   After training, the model's performance was evaluated on a separate test set using standard regression metrics such as R-squared and Root Mean Squared Error (RMSE).  
+
+### Key Considerations
+
+The integration of textual data into predictive models introduces complexity but also offers significant potential for improved accuracy. The use of pretrained LLMs like DistilBERT simplifies this process by eliminating the need for extensive manual feature engineering and Hugging Face's Model Hub provides an accessible platform for downloading, customizing, and deploying state-of-the-art language models.  
+
+However, for this problem, as can be seen later, the performance of the DistilBERT model is equivalent to the classic linear regression model, not showing an improvement over it. This could be due to several factors. First, DistilBERT, like other transformer-based models, excels at capturing complex patterns in large, unstructured text data, but may not provide significant benefits for tasks with limited or highly structured input, such as the salary prediction in this case. Moreover, transformer models require substantial computational resources, and might not be as effective when the training dataset is not large enough to leverage their power.
+
+Additionally, the performance might be improved with the **validation and tuning of the model's hyperparameters**. Key aspects of the DistilBERT model, such as learning rate, batch size, sequence length, and the number of training epochs, could be further optimized using techniques like cross-validation or grid search. Moreover, different strategies for the pre-processing of data or even more epochs for the training could be evaluated. **It is important to note that since this task was primarily a proof of concept and an example, the process of improving the model’s performance was not pursued further**. In real-world applications, the next steps would involve carefully tuning these parameters and possibly exploring the use of additional features or more data.
+
+### References
+
+- Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & Polosukhin, I. (2017). Attention Is All You Need. Advances in Neural Information Processing Systems, 30 (NeurIPS 2017). Retrieved from https://arxiv.org/abs/1706.03762
+
+- Sanh, V., Debut, L., Chaumond, J., & Wolf, T. (2019). DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter. arXiv preprint arXiv:1910.01108. Retrieved from https://arxiv.org/abs/1910.01108
+
+## Libraries and data
+
+```{python}
+import sys
+import os
+sys.path.append(os.path.join(os.getcwd(), "code"))
+from modulos import metrics, scatter_plot_real_vs_pred
+import numpy as np
+import pandas as pd
+from datasets import Dataset #, load_dataset, load_from_disk
+from sklearn.metrics import root_mean_squared_error, r2_score
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer
+import torch
+import joblib
+```
+
+```{python}
+# Load data
+train_df = pd.read_csv('../data/train_set.csv')
+test_df = pd.read_csv('../data/test_set.csv')
+```
+
+For using these libraries, the predictor column must be called `text` in the dataframe, while the response must be called `label` and have float format.
+
+Also, it is known that text-based regression models like this may have a poor performance when the response exhibits large values. To overcome this, I take a *log10* transformation of the salaries. Other approaches or types of normalizations could be also considered and validated.
+
+Finally, dataframe have to be transformed to the format required for the *transformers* library
+
+```{python}
+train_df['label'] = np.log10(train_df['salary'].clip(lower=1))
+test_df['label'] = np.log10(test_df['salary'].clip(lower=1))
+train_df = train_df[['salary', 'label', 'text']]
+test_df = test_df[['salary', 'label', 'text']]
+
+train_dataset = Dataset.from_pandas(train_df, preserve_index = False)
+test_dataset = Dataset.from_pandas(test_df, preserve_index = False)
+
+train_dataset[0]   # Primer ejemplo del conjunto de entrenamiento
+test_dataset[0]    # Primer ejemplo del conjunto de prueba
+```
+
+## Tokenizer
+
+We load the tokenizer and see examples of how it works. The tokenizer could also be fine-tuned, but we don't do it.
+
+```{python}
+# Tokenizer
+tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
+
+# Ejemplos
+tokenizer("I am a 39-year-old Senior Project Coordinator with a Master's degree")
+[tokenizer.decode(i) for i in tokenizer("I am a 39-year-old Senior Project Coordinator with a Master's degree")['input_ids']]
+
+# Función de tokenización
+def tokenize_function(examples):
+    return tokenizer(examples["text"], padding = "max_length", truncation = True)
+
+# Aplicar tokenización a los datasets
+tokenized_train_dataset = train_dataset.map(tokenize_function, batched = True)
+tokenized_test_dataset = test_dataset.map(tokenize_function, batched = True)
+```
+
+## Training
+
+Now we call the pretrained mode, **"distilbert-base-uncased"**, available on [Hugging Face](https://huggingface.co/distilbert/distilbert-base-uncased). The argument `num_labels = 1` is used to stablish that the final layer has only 1 output neuron, which is neccesary for performing this regression task.
+
+```{python}
+# Model selection
+model = AutoModelForSequenceClassification.from_pretrained("distilbert-base-uncased", num_labels = 1)
+model.resize_token_embeddings(len(tokenizer))
+```
+
+The following function defines the calculation of performance metrics ($R^2$ and RMSE), which will be used to track training progress during execution.
+
+```{python}
+# Definir métricas a usar
+def compute_metrics(eval_pred):
+    predictions, labels = eval_pred
+    # Asegurarse de que las predicciones y etiquetas son de tipo float
+    predictions = predictions.flatten()  # Flatten para asegurar que la forma sea correcta
+    labels = labels.flatten()
+    rmse = root_mean_squared_error(labels, predictions)
+    r2 = r2_score(labels, predictions)
+    return {"rmse": rmse, "r2": r2}
+```
+
+Next we perform the training itself. For this, all the required hyperparameters are specified. Note that it is convenient to validate them, but we don't do it in this project.
+
+```{python}
+#| eval: false
+# Configuración del entrenamiento
+training_args = TrainingArguments(
+    output_dir = "test_trainer",
+    logging_strategy = "epoch",
+    eval_strategy = "epoch",
+    per_device_train_batch_size = 8,
+    per_device_eval_batch_size = 8,
+    num_train_epochs = 10,
+    save_total_limit = 2,
+    save_strategy = "epoch",
+    load_best_model_at_end = True
+)
+
+# Entrenador
+trainer = Trainer(
+    model = model,
+    args = training_args,
+    train_dataset = tokenized_train_dataset,
+    eval_dataset = tokenized_test_dataset,
+    compute_metrics = compute_metrics
+)
+
+torch.cuda.empty_cache()
+trainer.train()
+```
+
+With the trained model, we gather the predictions made for the complete training set, and convert back to the original scale, in USD (by taking anti-logarithm). We save the results in a data.frame for further exploration.
+
+```{python}
+#| eval: false
+# guardo los rtdos para que no se entrene el modelo con cada render del documento,
+# esto podria solucionarlo usando cache
+train_pred = trainer.predict(tokenized_train_dataset).predictions.flatten()
+train_pred_orig = 10 ** train_pred
+rtdos_train = pd.DataFrame({
+    'logsalary': train_df['label'], 
+    'logsalary_pred': train_pred,
+    'salary': train_df['salary'], 
+    'salary_pred': train_pred_orig,
+})
+joblib.dump(rtdos_train, '../model_outputs/train_predictions_distilbert.pkl')
+```
+
+Since the $R^2$ and RMSE metrics reported by the training process refer to the transformed response, we recalculate them for the training set in the original scale (USD), comparing the true values of salary and the predicted ones.
+
+```{python}
+rtdos_train = joblib.load('../model_outputs/train_predictions_distilbert.pkl')
+metrics(rtdos_train['salary'], rtdos_train['salary_pred'], "train")
+```
+
+```{python}
+scatter_plot_real_vs_pred(rtdos_train, 'salary', 'salary_pred', "Training data", label = " - Salary (USD)")
+```
+
+The model shows a very good performance, with $R^2: 0.9094$, which indicates that 90.94% of the variance in the response (salary) is explained by the predictors in the model. 
+
+On average, the salary predictions made by the model differ from the actual values by USD 14445.76.
+
+The model underestimates the response for outlier cases with very high real salaries.
+
+## Prediction in test data
+
+The model shows a very good performance when predicting salaries with new data, with $R^2: 0.8836$, which indicates that 88.36% of the variance in the response (salary) is explained by the predictors in the model. 
+
+On average, the salary predictions made by the model with new data differ from the actual values by USD 16,404.05.
+
+As expected, these metrics are slightly worse than the ones for the train data, with no indication of overfitting.
+
+```{python}
+#| eval: false
+test_pred = trainer.predict(tokenized_test_dataset).predictions.flatten()
+test_pred_orig = 10 ** test_pred
+rtdos_test = pd.DataFrame({
+    'logsalary': test_df['label'], 
+    'logsalary_pred': test_pred,
+    'salary': test_df['salary'], 
+    'salary_pred': test_pred_orig,
+})
+joblib.dump(rtdos_test, '../model_outputs/test_predictions_distilbert.pkl')
+```
+
+```{python}
+rtdos_test = joblib.load('../model_outputs/test_predictions_distilbert.pkl')
+
+# Métricas para el conjunto de prueba
+metrics(rtdos_test['salary'], rtdos_test['salary_pred'], "test")
+```
+
+```{python}
+scatter_plot_real_vs_pred(rtdos_test, 'salary', 'salary_pred', "Testing data", label = " - Salary (USD)")
+```
+
+## Saving the trained model
+
+```{python}
+#| eval: false
+# Guardar el modelo
+model.save_pretrained('../model_outputs/mod_distilbert')
+
+# Guardar el tokenizador
+tokenizer.save_pretrained('../model_outputs/tokenizador')
+```
