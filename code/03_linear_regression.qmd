@@ -32,7 +32,7 @@ The goal of this script is to fit a multiple linear regression model to predict 
 
 |  **Set**  | **$R^2$** | **RSME** |
 |:---------:|:---------:|:--------:|
-| **Train** |   0.9231  | 13372,68 |
+| **Train** |   0.9231  | 13372.68 |
 |  **Test** |   0.8912  | 15819.82 |
 
 <!-- mejorar: no hardcodear estos valores, tomarlos de los objetos de abajo -->

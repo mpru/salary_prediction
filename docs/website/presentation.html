@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.5.56">
 
   <meta name="author" content="Marcos Prunello">
-  <title>Salary Prediction – titulo</title>
+  <title>Salary Prediction</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -320,14 +320,33 @@
       margin-right: 0; 
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+  
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+  <script type="text/javascript">
+  window.PlotlyConfig = {MathJaxConfig: 'local'};
+  if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+  if (typeof require !== 'undefined') {
+  require.undef("plotly");
+  requirejs.config({
+      paths: {
+          'plotly': ['https://cdn.plot.ly/plotly-2.35.2.min']
+      }
+  });
+  require(['plotly'], function(Plotly) {
+      window._Plotly = Plotly;
+  });
+  }
+  </script>
+
 </head>
 <body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">titulo</h1>
-  <p class="subtitle">subtitulo</p>
+  <h1 class="title">Salary Prediction</h1>
+  <p class="subtitle">A Data Science Sample Project</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -339,17 +358,308 @@ Marcos Prunello
 
 </section>
 <section>
-<section id="portada1" class="title-slide slide level1 center" data-background="#43464B">
-<h1>portada1</h1>
+<section id="about-this-problem" class="title-slide slide level1 center" data-background="#5B888C">
+<h1>About this problem</h1>
 
 </section>
-<section id="diapo1" class="slide level2">
-<h2>diapo1</h2>
-<p>contenido</p>
+<section id="goal" class="slide level2">
+<h2>Goal</h2>
+<p>The goal of this problem is to train a model that successfully predicts <strong>job salary</strong> based on a dataset with the following predictor variables:</p>
+<ul>
+<li>age,</li>
+<li>years of experience,</li>
+<li>gender,</li>
+<li>education,</li>
+<li>job title,</li>
+<li>job description.</li>
+</ul>
 </section>
-<section id="diapo2" class="slide level2">
-<h2>diapo2</h2>
-<p>contenido</p>
+<section id="two-approaches" class="slide level2">
+<h2>Two approaches</h2>
+<div class="small">
+<p>For this sample project, two supervised learning methods have been chosen: a <strong>linear regression model (LRM)</strong> and a <strong>large language model (LLM)</strong> based on the Transformer architecture.</p>
+<ul>
+<li>The <strong>LRM</strong> is a traditional and straightforward technique, yet very powerful in terms of its inferential and interpretative capabilities.</li>
+<li>The <strong>LLM</strong> represents a more recent and powerful method for working with textual data, particularly effective because they utilize deep learning architectures to process and understand context in language, which could be useful given the nature of the predictors job title and job description.</li>
+</ul>
+</div>
+</section>
+<section id="data-preprocessing" class="slide level2">
+<h2>Data preprocessing</h2>
+<p>Before training the models, the data was explored to address missing values, inconsistencies in observations, and to reduce the number of levels in categorical variables, among other preprocessing steps.</p>
+</section>
+<section id="traintest-data-split" class="slide level2">
+<h2>Train/test data split</h2>
+<div class="small">
+<ul>
+<li>Due to the small size of the dataset, a two-partition approach was used<sup>1</sup>.</li>
+<li>Stratification based on the response variable was made to ensure similar distributions in both partitions.</li>
+<li>All models were trained using the same partitions, to avoid bias: 80% for train and 20% for test.</li>
+</ul>
+</div>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Other approaches with more partitions could be considered, as they may offer advantages in producing unbiased estimates of test error.</p></li></ol></aside></section></section>
+<section>
+<section id="approach-1.-linear-regression-model" class="title-slide slide level1 center" data-background="#5B888C">
+<h1>Approach 1. Linear regression model</h1>
+
+</section>
+<section id="results" class="slide level2">
+<h2>Results</h2>
+<div class="columns">
+<div class="column small" style="width:70%;">
+<ul>
+<li><p>The overall model is highly significant and all predictors make significant contributions, as supported by the corresponding statistical tests<sup>1</sup>.</p></li>
+<li><p>The model shows a good performance when predicting salaries with new data:</p>
+<ul>
+<li>89.12% of the variance in the salary is explained by the predictors in the model.</li>
+<li>On average, the salary predictions made by the model with new data differ from the actual values by USD 15,819.82.</li>
+</ul></li>
+<li><p>Similar values of these metrics in train and test data indicate low risk of overfitting.</p></li>
+</ul>
+</div><div class="column" style="width:30%;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong>Set</strong></th>
+<th style="text-align: center;"><strong><span class="math inline">\(R^2\)</span></strong></th>
+<th style="text-align: center;"><strong>RSME</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><strong>Train</strong></td>
+<td style="text-align: center;">0.9231</td>
+<td style="text-align: center;">13372,68</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Test</strong></td>
+<td style="text-align: center;">0.8912</td>
+<td style="text-align: center;">15819.82</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>No major violations of model assumptions were detected.</p></li></ol></aside></section>
+<section id="key-effects" class="slide level2">
+<h2>Key effects</h2>
+<div class="columns">
+<div class="column small" style="width:50%;">
+<p>Based on the model estimates, on average<sup>1</sup>:</p>
+<ul>
+<li>A Master’s degree increases salary by $18,390, and a PhD increases it by $23,180 compared to individuals with a Bachelor’s degree.</li>
+<li>Being in a Leadership role increases salary by $14,050, and being a Senior employee increases it by $13,590, compared to being a Junior.</li>
+<li>Men earn $7999.69 more than women.</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div id="bf0eb14a" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div>                            <div id="32699c21-842e-4f15-b7a5-be85355f9524" class="plotly-graph-div" style="height:450px; width:450px;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("32699c21-842e-4f15-b7a5-be85355f9524")) {                    Plotly.newPlot(                        "32699c21-842e-4f15-b7a5-be85355f9524",                        [{"marker":{"color":"blue"},"name":"Gender","orientation":"h","x":[90000.0,65000.0,150000.0,60000.0,200000.0,55000.0,120000.0,80000.0,45000.0,110000.0,75000.0,140000.0,65000.0,130000.0,40000.0,125000.0,90000.0,115000.0,35000.0,180000.0,80000.0,190000.0,50000.0,60000.0,140000.0,45000.0,110000.0,40000.0,140000.0,90000.0,250000.0,55000.0,75000.0,65000.0,170000.0,45000.0,60000.0,115000.0,40000.0,160000.0,80000.0,190000.0,60000.0,45000.0,130000.0,40000.0,75000.0,180000.0,120000.0,35000.0,130000.0,85000.0,60000.0,200000.0,50000.0,95000.0,65000.0,140000.0,55000.0,105000.0,170000.0,50000.0,80000.0,180000.0,35000.0,90000.0,120000.0,45000.0,90000.0,150000.0,65000.0,70000.0,190000.0,40000.0,120000.0,95000.0,160000.0,100000.0,180000.0,55000.0,70000.0,80000.0,30000.0,250000.0,40000.0,95000.0,45000.0,80000.0,135000.0,55000.0,120000.0,40000.0,105000.0,170000.0,75000.0,65000.0,160000.0,35000.0,90000.0,110000.0,45000.0,95000.0,150000.0,50000.0,80000.0,220000.0,50000.0,60000.0,100000.0,40000.0,110000.0,95000.0,130000.0,90000.0,35000.0,95000.0,65000.0,170000.0,45000.0,120000.0,100000.0,180000.0,50000.0,80000.0,140000.0,40000.0,95000.0,110000.0,50000.0,105000.0,160000.0,45000.0,100000.0,160000.0,35000.0,55000.0,140000.0,50000.0,60000.0,120000.0,40000.0,110000.0,50000.0,135000.0,40000.0,90000.0,150000.0,60000.0,80000.0,175000.0,45000.0,120000.0,140000.0,35000.0,95000.0,110000.0,50000.0,115000.0,185000.0,40000.0,90000.0,175000.0,45000.0,80000.0,120000.0,35000.0,110000.0,150000.0,50000.0,105000.0,180000.0,40000.0,140000.0,45000.0,85000.0,140000.0,50000.0,80000.0,170000.0,40000.0,105000.0,145000.0,40000.0,85000.0,130000.0,95000.0,100000.0,180000.0,35000.0,95000.0,170000.0,45000.0,95000.0,120000.0,40000.0,90000.0,155000.0,55000.0,110000.0,180000.0,45000.0,130000.0,45000.0,90000.0,160000.0,50000.0,120000.0,170000.0,40000.0,110000.0,150000.0,40000.0,85000.0,130000.0,100000.0,95000.0,180000.0,35000.0,100000.0,170000.0,45000.0,100000.0,140000.0,40000.0,105000.0,160000.0,70000.0,120000.0,190000.0,45000.0,120000.0,50000.0,85000.0,140000.0,45000.0,100000.0,140000.0,70000.0,120000.0,160000.0,40000.0,120000.0,150000.0,70000.0,95000.0,180000.0,50000.0,95000.0,170000.0,40000.0,110000.0,150000.0,40000.0,85000.0,130000.0,100000.0,95000.0,180000.0,35000.0,120000.0,160000.0,50000.0,110000.0,40000.0,95000.0,140000.0,60000.0,110000.0,150000.0,60000.0,90000.0,180000.0,40000.0,120000.0,160000.0,70000.0,95000.0,180000.0,50000.0,95000.0,170000.0,35000.0,100000.0,150000.0,60000.0,85000.0,130000.0,65000.0,110000.0,180000.0,40000.0,90000.0,140000.0,60000.0,130000.0,160000.0,40000.0,100000.0,180000.0,55000.0,120000.0,150000.0,70000.0,95000.0,180000.0,50000.0,120000.0,170000.0,35000.0,100000.0,150000.0,60000.0,85000.0,130000.0,80000.0,95000.0,40000.0,120000.0,160000.0,65000.0,130000.0,180000.0,40000.0,100000.0,150000.0,55000.0,110000.0,180000.0,50000.0,130000.0,160000.0,60000.0,95000.0,170000.0,40000.0,90000.0,150000.0,70000.0,90000.0,170000.0,50000.0,150000.0,160000.0,60000.0,85000.0,180000.0,35000.0,110000.0,160000.0,55000.0,110000.0,180000.0,50000.0,130000.0,160000.0,60000.0,95000.0,170000.0,40000.0,90000.0,150000.0,70000.0,90000.0,170000.0,50000.0,150000.0,160000.0,60000.0,85000.0,170000.0,40000.0,90000.0,150000.0],"y":["Male","Female","Male","Female","Male","Male","Female","Male","Female","Male","Male","Female","Male","Female","Male","Male","Female","Male","Female","Male","Female","Male","Male","Female","Male","Female","Female","Male","Female","Male","Male","Female","Male","Female","Male","Male","Female","Male","Female","Male","Female","Male","Male","Female","Male","Female","Male","Female","Male","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Male","Female","Male","Female","Male","Female","Male","Female","Male","Male","Female","Male","Female","Male","Female","Female","Male","Female","Male","Male","Female","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Male","Female","Male","Female","Male","Female","Male","Female","Male","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male",null,"Male","Female","Male","Female","Male",null,"Male","Female","Male","Female","Male","Male","Female","Male","Female",null,"Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female"],"type":"box","xaxis":"x","yaxis":"y"},{"marker":{"color":"blue"},"name":"Education","orientation":"h","x":[90000.0,65000.0,150000.0,60000.0,200000.0,55000.0,120000.0,80000.0,45000.0,110000.0,75000.0,140000.0,65000.0,130000.0,40000.0,125000.0,90000.0,115000.0,35000.0,180000.0,80000.0,190000.0,50000.0,60000.0,140000.0,45000.0,110000.0,40000.0,140000.0,90000.0,250000.0,55000.0,75000.0,65000.0,170000.0,45000.0,60000.0,115000.0,40000.0,160000.0,80000.0,190000.0,60000.0,45000.0,130000.0,40000.0,75000.0,180000.0,120000.0,35000.0,130000.0,85000.0,60000.0,200000.0,50000.0,95000.0,65000.0,140000.0,55000.0,105000.0,170000.0,50000.0,80000.0,180000.0,35000.0,90000.0,120000.0,45000.0,90000.0,150000.0,65000.0,70000.0,190000.0,40000.0,120000.0,95000.0,160000.0,100000.0,180000.0,55000.0,70000.0,80000.0,30000.0,250000.0,40000.0,95000.0,45000.0,80000.0,135000.0,55000.0,120000.0,40000.0,105000.0,170000.0,75000.0,65000.0,160000.0,35000.0,90000.0,110000.0,45000.0,95000.0,150000.0,50000.0,80000.0,220000.0,50000.0,60000.0,100000.0,40000.0,110000.0,95000.0,130000.0,90000.0,35000.0,95000.0,65000.0,170000.0,45000.0,120000.0,100000.0,180000.0,50000.0,80000.0,140000.0,40000.0,95000.0,110000.0,50000.0,105000.0,160000.0,45000.0,100000.0,160000.0,35000.0,55000.0,140000.0,50000.0,60000.0,120000.0,40000.0,110000.0,50000.0,135000.0,40000.0,90000.0,150000.0,60000.0,80000.0,175000.0,45000.0,120000.0,140000.0,35000.0,95000.0,110000.0,50000.0,115000.0,185000.0,40000.0,90000.0,175000.0,45000.0,80000.0,120000.0,35000.0,110000.0,150000.0,50000.0,105000.0,180000.0,40000.0,140000.0,45000.0,85000.0,140000.0,50000.0,80000.0,170000.0,40000.0,105000.0,145000.0,40000.0,85000.0,130000.0,95000.0,100000.0,180000.0,35000.0,95000.0,170000.0,45000.0,95000.0,120000.0,40000.0,90000.0,155000.0,55000.0,110000.0,180000.0,45000.0,130000.0,45000.0,90000.0,160000.0,50000.0,120000.0,170000.0,40000.0,110000.0,150000.0,40000.0,85000.0,130000.0,100000.0,95000.0,180000.0,35000.0,100000.0,170000.0,45000.0,100000.0,140000.0,40000.0,105000.0,160000.0,70000.0,120000.0,190000.0,45000.0,120000.0,50000.0,85000.0,140000.0,45000.0,100000.0,140000.0,70000.0,120000.0,160000.0,40000.0,120000.0,150000.0,70000.0,95000.0,180000.0,50000.0,95000.0,170000.0,40000.0,110000.0,150000.0,40000.0,85000.0,130000.0,100000.0,95000.0,180000.0,35000.0,120000.0,160000.0,50000.0,110000.0,40000.0,95000.0,140000.0,60000.0,110000.0,150000.0,60000.0,90000.0,180000.0,40000.0,120000.0,160000.0,70000.0,95000.0,180000.0,50000.0,95000.0,170000.0,35000.0,100000.0,150000.0,60000.0,85000.0,130000.0,65000.0,110000.0,180000.0,40000.0,90000.0,140000.0,60000.0,130000.0,160000.0,40000.0,100000.0,180000.0,55000.0,120000.0,150000.0,70000.0,95000.0,180000.0,50000.0,120000.0,170000.0,35000.0,100000.0,150000.0,60000.0,85000.0,130000.0,80000.0,95000.0,40000.0,120000.0,160000.0,65000.0,130000.0,180000.0,40000.0,100000.0,150000.0,55000.0,110000.0,180000.0,50000.0,130000.0,160000.0,60000.0,95000.0,170000.0,40000.0,90000.0,150000.0,70000.0,90000.0,170000.0,50000.0,150000.0,160000.0,60000.0,85000.0,180000.0,35000.0,110000.0,160000.0,55000.0,110000.0,180000.0,50000.0,130000.0,160000.0,60000.0,95000.0,170000.0,40000.0,90000.0,150000.0,70000.0,90000.0,170000.0,50000.0,150000.0,160000.0,60000.0,85000.0,170000.0,40000.0,90000.0,150000.0],"y":["Bachelor's","Master's","PhD","Bachelor's","Master's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","PhD","Bachelor's","Bachelor's","Master's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","Master's","Bachelor's","PhD","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","PhD","Bachelor's","Master's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","PhD","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","Master's","Bachelor's","Master's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","Master's","Bachelor's","PhD","Bachelor's","Master's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","Master's","Bachelor's","Master's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Master's","PhD","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Master's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Master's","PhD","Bachelor's","Bachelor's","Bachelor's","Master's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Master's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Master's","PhD","Bachelor's","Bachelor's","Bachelor's","Master's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Master's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","Master's","PhD","Bachelor's","Bachelor's","Bachelor's","Master's","Bachelor's","PhD","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Bachelor's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD","Bachelor's","Bachelor's","Master's","Bachelor's","Bachelor's","PhD"],"type":"box","xaxis":"x2","yaxis":"y2"},{"marker":{"color":"blue"},"name":"Title Category","orientation":"h","x":[90000.0,65000.0,150000.0,60000.0,200000.0,55000.0,120000.0,80000.0,45000.0,110000.0,75000.0,140000.0,65000.0,130000.0,40000.0,125000.0,90000.0,115000.0,35000.0,180000.0,80000.0,190000.0,50000.0,60000.0,140000.0,45000.0,110000.0,40000.0,140000.0,90000.0,250000.0,55000.0,75000.0,65000.0,170000.0,45000.0,60000.0,115000.0,40000.0,160000.0,80000.0,190000.0,60000.0,45000.0,130000.0,40000.0,75000.0,180000.0,120000.0,35000.0,130000.0,85000.0,60000.0,200000.0,50000.0,95000.0,65000.0,140000.0,55000.0,105000.0,170000.0,50000.0,80000.0,180000.0,35000.0,90000.0,120000.0,45000.0,90000.0,150000.0,65000.0,70000.0,190000.0,40000.0,120000.0,95000.0,160000.0,100000.0,180000.0,55000.0,70000.0,80000.0,30000.0,250000.0,40000.0,95000.0,45000.0,80000.0,135000.0,55000.0,120000.0,40000.0,105000.0,170000.0,75000.0,65000.0,160000.0,35000.0,90000.0,110000.0,45000.0,95000.0,150000.0,50000.0,80000.0,220000.0,50000.0,60000.0,100000.0,40000.0,110000.0,95000.0,130000.0,90000.0,35000.0,95000.0,65000.0,170000.0,45000.0,120000.0,100000.0,180000.0,50000.0,80000.0,140000.0,40000.0,95000.0,110000.0,50000.0,105000.0,160000.0,45000.0,100000.0,160000.0,35000.0,55000.0,140000.0,50000.0,60000.0,120000.0,40000.0,110000.0,50000.0,135000.0,40000.0,90000.0,150000.0,60000.0,80000.0,175000.0,45000.0,120000.0,140000.0,35000.0,95000.0,110000.0,50000.0,115000.0,185000.0,40000.0,90000.0,175000.0,45000.0,80000.0,120000.0,35000.0,110000.0,150000.0,50000.0,105000.0,180000.0,40000.0,140000.0,45000.0,85000.0,140000.0,50000.0,80000.0,170000.0,40000.0,105000.0,145000.0,40000.0,85000.0,130000.0,95000.0,100000.0,180000.0,35000.0,95000.0,170000.0,45000.0,95000.0,120000.0,40000.0,90000.0,155000.0,55000.0,110000.0,180000.0,45000.0,130000.0,45000.0,90000.0,160000.0,50000.0,120000.0,170000.0,40000.0,110000.0,150000.0,40000.0,85000.0,130000.0,100000.0,95000.0,180000.0,35000.0,100000.0,170000.0,45000.0,100000.0,140000.0,40000.0,105000.0,160000.0,70000.0,120000.0,190000.0,45000.0,120000.0,50000.0,85000.0,140000.0,45000.0,100000.0,140000.0,70000.0,120000.0,160000.0,40000.0,120000.0,150000.0,70000.0,95000.0,180000.0,50000.0,95000.0,170000.0,40000.0,110000.0,150000.0,40000.0,85000.0,130000.0,100000.0,95000.0,180000.0,35000.0,120000.0,160000.0,50000.0,110000.0,40000.0,95000.0,140000.0,60000.0,110000.0,150000.0,60000.0,90000.0,180000.0,40000.0,120000.0,160000.0,70000.0,95000.0,180000.0,50000.0,95000.0,170000.0,35000.0,100000.0,150000.0,60000.0,85000.0,130000.0,65000.0,110000.0,180000.0,40000.0,90000.0,140000.0,60000.0,130000.0,160000.0,40000.0,100000.0,180000.0,55000.0,120000.0,150000.0,70000.0,95000.0,180000.0,50000.0,120000.0,170000.0,35000.0,100000.0,150000.0,60000.0,85000.0,130000.0,80000.0,95000.0,40000.0,120000.0,160000.0,65000.0,130000.0,180000.0,40000.0,100000.0,150000.0,55000.0,110000.0,180000.0,50000.0,130000.0,160000.0,60000.0,95000.0,170000.0,40000.0,90000.0,150000.0,70000.0,90000.0,170000.0,50000.0,150000.0,160000.0,60000.0,85000.0,180000.0,35000.0,110000.0,160000.0,55000.0,110000.0,180000.0,50000.0,130000.0,160000.0,60000.0,95000.0,170000.0,40000.0,90000.0,150000.0,70000.0,90000.0,170000.0,50000.0,150000.0,160000.0,60000.0,85000.0,170000.0,40000.0,90000.0,150000.0],"y":["Other","Other","Senior","Leadership","Leadership","Other","Leadership","Leadership","Other","Senior","Other","Leadership","Other","Leadership","Other","Leadership","Leadership","Senior","Other","Leadership","Other","Other","Other","Other","Leadership","Other","Leadership","Junior","Senior","Other","Leadership","Other","Other","Other","Senior","Other","Other","Other","Other","Other","Other","Leadership","Other","Other","Other","Other","Leadership","Leadership","Senior","Other","Leadership","Other","Other","Other","Other","Leadership","Other","Senior","Leadership","Leadership","Leadership","Other","Leadership","Senior","Junior","Leadership","Leadership","Other","Leadership","Senior","Other","Other","Leadership","Other","Leadership","Leadership","Leadership","Senior","Leadership","Leadership","Other","Other","Other","Leadership","Junior","Other","Junior","Other","Senior","Other","Leadership","Leadership","Leadership","Senior","Other","Other","Other","Junior","Leadership","Other","Other","Leadership","Senior","Junior","Senior","Leadership","Other","Other","Senior","Leadership","Senior","Leadership","Other","Senior","Junior","Senior","Leadership","Leadership","Junior","Senior","Leadership","Leadership","Junior","Leadership","Senior","Junior","Senior","Leadership","Other","Senior","Leadership","Junior","Senior","Senior","Junior","Other","Senior","Junior","Junior","Senior","Junior","Senior","Junior","Senior","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Senior","Senior","Senior","Leadership","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Senior","Senior","Senior","Leadership","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Junior","Senior","Senior","Junior","Senior","Senior","Junior","Senior","Senior","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Senior","Senior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Junior","Senior","Senior","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Senior","Senior","Senior","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Senior","Junior","Senior","Leadership","Junior","Senior","Senior"],"type":"box","xaxis":"x3","yaxis":"y3"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"xaxis":{"anchor":"y","domain":[0.0,1.0]},"yaxis":{"anchor":"x","domain":[0.7333333333333333,1.0],"title":{"text":"Gender"}},"xaxis2":{"anchor":"y2","domain":[0.0,1.0]},"yaxis2":{"anchor":"x2","domain":[0.36666666666666664,0.6333333333333333],"title":{"text":"Education"}},"xaxis3":{"anchor":"y3","domain":[0.0,1.0],"title":{"text":"Salary"}},"yaxis3":{"anchor":"x3","domain":[0.0,0.26666666666666666],"title":{"text":"Job title related to"}},"title":{"text":"Salary by gender, education and job title"},"showlegend":false,"width":450,"height":450},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('32699c21-842e-4f15-b7a5-be85355f9524');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+</div>
+</div></div>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>See confidence intervals <a href="../code/03_linear_regression.html">here</a>.</p></li></ol></aside></section>
+<section id="key-effects-1" class="slide level2">
+<h2>Key effects</h2>
+<div class="small">
+<p>Based on the model estimates, on average<sup>1</sup>: each additional year of age increases salary by 2,540.94 and each additional year of experience increases it by USD 2,497.27.</p>
+</div>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:10%;">
+
+</div><div class="column" style="width:80%;">
+<div id="30a69f56" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>                            <div id="de65a67a-f6e9-4fc0-8b26-d97a78d9baee" class="plotly-graph-div" style="height:325px; width:700px;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("de65a67a-f6e9-4fc0-8b26-d97a78d9baee")) {                    Plotly.newPlot(                        "de65a67a-f6e9-4fc0-8b26-d97a78d9baee",                        [{"marker":{"color":"blue","opacity":0.5},"mode":"markers","x":[32.0,28.0,45.0,36.0,52.0,29.0,42.0,31.0,26.0,38.0,29.0,48.0,35.0,40.0,27.0,44.0,33.0,39.0,25.0,51.0,34.0,47.0,30.0,36.0,41.0,28.0,37.0,24.0,43.0,33.0,50.0,31.0,29.0,39.0,46.0,27.0,35.0,42.0,26.0,49.0,34.0,48.0,30.0,36.0,41.0,28.0,32.0,45.0,38.0,25.0,51.0,33.0,40.0,47.0,29.0,36.0,27.0,43.0,30.0,35.0,51.0,29.0,40.0,47.0,26.0,38.0,46.0,31.0,34.0,49.0,33.0,39.0,45.0,28.0,42.0,37.0,50.0,32.0,48.0,30.0,36.0,41.0,25.0,52.0,29.0,34.0,27.0,40.0,46.0,31.0,36.0,29.0,43.0,52.0,33.0,39.0,47.0,26.0,38.0,45.0,31.0,35.0,49.0,33.0,39.0,44.0,30.0,36.0,41.0,28.0,42.0,37.0,50.0,32.0,23.0,31.0,40.0,48.0,29.0,35.0,42.0,53.0,33.0,38.0,44.0,26.0,37.0,45.0,32.0,34.0,50.0,29.0,40.0,47.0,27.0,39.0,46.0,30.0,36.0,43.0,28.0,41.0,33.0,47.0,25.0,34.0,42.0,31.0,38.0,45.0,29.0,36.0,43.0,26.0,37.0,44.0,32.0,33.0,51.0,28.0,39.0,48.0,30.0,35.0,41.0,27.0,40.0,46.0,31.0,34.0,50.0,29.0,43.0,26.0,35.0,42.0,31.0,38.0,46.0,29.0,37.0,44.0,27.0,36.0,43.0,33.0,34.0,50.0,28.0,39.0,47.0,30.0,34.0,40.0,28.0,41.0,45.0,32.0,35.0,49.0,30.0,44.0,27.0,36.0,41.0,31.0,39.0,47.0,30.0,38.0,45.0,28.0,35.0,44.0,34.0,35.0,50.0,29.0,40.0,48.0,31.0,33.0,42.0,28.0,40.0,46.0,33.0,37.0,51.0,30.0,43.0,27.0,35.0,42.0,32.0,37.0,45.0,33.0,39.0,44.0,29.0,38.0,46.0,34.0,36.0,49.0,31.0,41.0,47.0,30.0,38.0,45.0,28.0,35.0,44.0,34.0,35.0,50.0,29.0,37.0,46.0,31.0,42.0,29.0,36.0,44.0,33.0,39.0,45.0,32.0,37.0,47.0,30.0,38.0,46.0,34.0,36.0,49.0,31.0,41.0,47.0,29.0,35.0,44.0,33.0,35.0,44.0,32.0,38.0,49.0,29.0,35.0,45.0,33.0,40.0,44.0,30.0,37.0,48.0,31.0,38.0,45.0,33.0,36.0,49.0,31.0,42.0,47.0,29.0,35.0,44.0,33.0,35.0,null,34.0,36.0,30.0,37.0,45.0,32.0,39.0,47.0,29.0,36.0,43.0,32.0,38.0,48.0,31.0,40.0,45.0,33.0,36.0,47.0,29.0,34.0,44.0,33.0,35.0,43.0,31.0,41.0,44.0,33.0,35.0,45.0,28.0,36.0,44.0,31.0,38.0,48.0,31.0,40.0,45.0,33.0,36.0,47.0,29.0,34.0,44.0,33.0,35.0,43.0,31.0,41.0,44.0,33.0,35.0,43.0,29.0,34.0,44.0],"y":[90000.0,65000.0,150000.0,60000.0,200000.0,55000.0,120000.0,80000.0,45000.0,110000.0,75000.0,140000.0,65000.0,130000.0,40000.0,125000.0,90000.0,115000.0,35000.0,180000.0,80000.0,190000.0,50000.0,60000.0,140000.0,45000.0,110000.0,40000.0,140000.0,90000.0,250000.0,55000.0,75000.0,65000.0,170000.0,45000.0,60000.0,115000.0,40000.0,160000.0,80000.0,190000.0,60000.0,45000.0,130000.0,40000.0,75000.0,180000.0,120000.0,35000.0,130000.0,85000.0,60000.0,200000.0,50000.0,95000.0,65000.0,140000.0,55000.0,105000.0,170000.0,50000.0,80000.0,180000.0,35000.0,90000.0,120000.0,45000.0,90000.0,150000.0,65000.0,70000.0,190000.0,40000.0,120000.0,95000.0,160000.0,100000.0,180000.0,55000.0,70000.0,80000.0,30000.0,250000.0,40000.0,95000.0,45000.0,80000.0,135000.0,55000.0,120000.0,40000.0,105000.0,170000.0,75000.0,65000.0,160000.0,35000.0,90000.0,110000.0,45000.0,95000.0,150000.0,50000.0,80000.0,220000.0,50000.0,60000.0,100000.0,40000.0,110000.0,95000.0,130000.0,90000.0,35000.0,95000.0,65000.0,170000.0,45000.0,120000.0,100000.0,180000.0,50000.0,80000.0,140000.0,40000.0,95000.0,110000.0,50000.0,105000.0,160000.0,45000.0,100000.0,160000.0,35000.0,55000.0,140000.0,50000.0,60000.0,120000.0,40000.0,110000.0,50000.0,135000.0,40000.0,90000.0,150000.0,60000.0,80000.0,175000.0,45000.0,120000.0,140000.0,35000.0,95000.0,110000.0,50000.0,115000.0,185000.0,40000.0,90000.0,175000.0,45000.0,80000.0,120000.0,35000.0,110000.0,150000.0,50000.0,105000.0,180000.0,40000.0,140000.0,45000.0,85000.0,140000.0,50000.0,80000.0,170000.0,40000.0,105000.0,145000.0,40000.0,85000.0,130000.0,95000.0,100000.0,180000.0,35000.0,95000.0,170000.0,45000.0,95000.0,120000.0,40000.0,90000.0,155000.0,55000.0,110000.0,180000.0,45000.0,130000.0,45000.0,90000.0,160000.0,50000.0,120000.0,170000.0,40000.0,110000.0,150000.0,40000.0,85000.0,130000.0,100000.0,95000.0,180000.0,35000.0,100000.0,170000.0,45000.0,100000.0,140000.0,40000.0,105000.0,160000.0,70000.0,120000.0,190000.0,45000.0,120000.0,50000.0,85000.0,140000.0,45000.0,100000.0,140000.0,70000.0,120000.0,160000.0,40000.0,120000.0,150000.0,70000.0,95000.0,180000.0,50000.0,95000.0,170000.0,40000.0,110000.0,150000.0,40000.0,85000.0,130000.0,100000.0,95000.0,180000.0,35000.0,120000.0,160000.0,50000.0,110000.0,40000.0,95000.0,140000.0,60000.0,110000.0,150000.0,60000.0,90000.0,180000.0,40000.0,120000.0,160000.0,70000.0,95000.0,180000.0,50000.0,95000.0,170000.0,35000.0,100000.0,150000.0,60000.0,85000.0,130000.0,65000.0,110000.0,180000.0,40000.0,90000.0,140000.0,60000.0,130000.0,160000.0,40000.0,100000.0,180000.0,55000.0,120000.0,150000.0,70000.0,95000.0,180000.0,50000.0,120000.0,170000.0,35000.0,100000.0,150000.0,60000.0,85000.0,130000.0,80000.0,95000.0,40000.0,120000.0,160000.0,65000.0,130000.0,180000.0,40000.0,100000.0,150000.0,55000.0,110000.0,180000.0,50000.0,130000.0,160000.0,60000.0,95000.0,170000.0,40000.0,90000.0,150000.0,70000.0,90000.0,170000.0,50000.0,150000.0,160000.0,60000.0,85000.0,180000.0,35000.0,110000.0,160000.0,55000.0,110000.0,180000.0,50000.0,130000.0,160000.0,60000.0,95000.0,170000.0,40000.0,90000.0,150000.0,70000.0,90000.0,170000.0,50000.0,150000.0,160000.0,60000.0,85000.0,170000.0,40000.0,90000.0,150000.0],"type":"scatter","xaxis":"x","yaxis":"y"},{"marker":{"color":"blue","opacity":0.5},"mode":"markers","x":[5.0,3.0,15.0,7.0,20.0,2.0,12.0,4.0,1.0,10.0,3.0,18.0,6.0,14.0,2.0,16.0,7.0,12.0,0.0,22.0,5.0,19.0,2.0,9.0,13.0,3.0,11.0,1.0,15.0,6.0,25.0,4.0,3.0,10.0,20.0,2.0,7.0,14.0,1.0,21.0,5.0,18.0,3.0,8.0,13.0,2.0,5.0,16.0,11.0,0.0,22.0,7.0,12.0,19.0,3.0,9.0,2.0,17.0,4.0,7.0,23.0,3.0,12.0,21.0,1.0,10.0,19.0,5.0,8.0,18.0,6.0,11.0,16.0,2.0,14.0,10.0,22.0,6.0,20.0,3.0,8.0,13.0,0.0,24.0,2.0,10.0,2.0,15.0,21.0,6.0,11.0,3.0,18.0,25.0,7.0,12.0,22.0,1.0,10.0,20.0,5.0,8.0,19.0,5.0,13.0,16.0,3.0,7.0,14.0,2.0,15.0,9.0,22.0,6.0,0.5,6.0,15.0,20.0,3.0,10.0,17.0,25.0,5.0,11.0,16.0,2.0,9.0,18.0,4.0,8.0,21.0,3.0,12.0,22.0,1.0,10.0,19.0,4.0,7.0,14.0,2.0,13.0,5.0,20.0,1.5,8.0,16.0,4.0,10.0,19.0,3.0,11.0,18.0,2.0,9.0,14.0,5.0,7.0,23.0,2.0,12.0,21.0,3.0,7.0,13.0,1.5,14.0,18.0,4.0,9.0,20.0,2.0,16.0,1.5,7.0,18.0,4.0,10.0,20.0,2.0,9.0,15.0,2.0,8.0,14.0,6.0,9.0,22.0,1.5,12.0,19.0,3.0,7.0,13.0,2.0,11.0,17.0,5.0,9.0,21.0,3.0,16.0,1.5,7.0,17.0,4.0,10.0,20.0,2.0,9.0,15.0,2.0,8.0,14.0,6.0,9.0,22.0,1.5,12.0,19.0,3.0,7.0,13.0,2.0,11.0,18.0,5.0,9.0,21.0,3.0,15.0,1.5,8.0,13.0,3.0,9.0,16.0,5.0,10.0,18.0,1.5,10.0,19.0,6.0,8.0,21.0,3.0,11.0,20.0,2.0,9.0,15.0,2.0,8.0,14.0,6.0,9.0,22.0,1.5,10.0,18.0,3.0,12.0,1.5,8.0,15.0,4.0,9.0,16.0,4.0,8.0,20.0,2.0,9.0,17.0,5.0,8.0,21.0,3.0,11.0,19.0,1.5,9.0,15.0,4.0,8.0,13.0,4.0,10.0,21.0,2.0,7.0,14.0,4.0,12.0,16.0,2.0,9.0,20.0,3.0,9.0,16.0,5.0,8.0,21.0,3.0,12.0,19.0,1.5,9.0,15.0,4.0,8.0,13.0,6.0,8.0,2.0,10.0,16.0,4.0,12.0,20.0,2.0,9.0,15.0,3.0,10.0,21.0,3.0,12.0,16.0,4.0,8.0,19.0,2.0,7.0,15.0,5.0,8.0,18.0,3.0,14.0,16.0,4.0,8.0,19.0,1.0,8.0,16.0,3.0,10.0,21.0,3.0,12.0,16.0,4.0,8.0,19.0,2.0,7.0,15.0,5.0,8.0,18.0,3.0,14.0,16.0,4.0,8.0,19.0,2.0,7.0,15.0],"y":[90000.0,65000.0,150000.0,60000.0,200000.0,55000.0,120000.0,80000.0,45000.0,110000.0,75000.0,140000.0,65000.0,130000.0,40000.0,125000.0,90000.0,115000.0,35000.0,180000.0,80000.0,190000.0,50000.0,60000.0,140000.0,45000.0,110000.0,40000.0,140000.0,90000.0,250000.0,55000.0,75000.0,65000.0,170000.0,45000.0,60000.0,115000.0,40000.0,160000.0,80000.0,190000.0,60000.0,45000.0,130000.0,40000.0,75000.0,180000.0,120000.0,35000.0,130000.0,85000.0,60000.0,200000.0,50000.0,95000.0,65000.0,140000.0,55000.0,105000.0,170000.0,50000.0,80000.0,180000.0,35000.0,90000.0,120000.0,45000.0,90000.0,150000.0,65000.0,70000.0,190000.0,40000.0,120000.0,95000.0,160000.0,100000.0,180000.0,55000.0,70000.0,80000.0,30000.0,250000.0,40000.0,95000.0,45000.0,80000.0,135000.0,55000.0,120000.0,40000.0,105000.0,170000.0,75000.0,65000.0,160000.0,35000.0,90000.0,110000.0,45000.0,95000.0,150000.0,50000.0,80000.0,220000.0,50000.0,60000.0,100000.0,40000.0,110000.0,95000.0,130000.0,90000.0,35000.0,95000.0,65000.0,170000.0,45000.0,120000.0,100000.0,180000.0,50000.0,80000.0,140000.0,40000.0,95000.0,110000.0,50000.0,105000.0,160000.0,45000.0,100000.0,160000.0,35000.0,55000.0,140000.0,50000.0,60000.0,120000.0,40000.0,110000.0,50000.0,135000.0,40000.0,90000.0,150000.0,60000.0,80000.0,175000.0,45000.0,120000.0,140000.0,35000.0,95000.0,110000.0,50000.0,115000.0,185000.0,40000.0,90000.0,175000.0,45000.0,80000.0,120000.0,35000.0,110000.0,150000.0,50000.0,105000.0,180000.0,40000.0,140000.0,45000.0,85000.0,140000.0,50000.0,80000.0,170000.0,40000.0,105000.0,145000.0,40000.0,85000.0,130000.0,95000.0,100000.0,180000.0,35000.0,95000.0,170000.0,45000.0,95000.0,120000.0,40000.0,90000.0,155000.0,55000.0,110000.0,180000.0,45000.0,130000.0,45000.0,90000.0,160000.0,50000.0,120000.0,170000.0,40000.0,110000.0,150000.0,40000.0,85000.0,130000.0,100000.0,95000.0,180000.0,35000.0,100000.0,170000.0,45000.0,100000.0,140000.0,40000.0,105000.0,160000.0,70000.0,120000.0,190000.0,45000.0,120000.0,50000.0,85000.0,140000.0,45000.0,100000.0,140000.0,70000.0,120000.0,160000.0,40000.0,120000.0,150000.0,70000.0,95000.0,180000.0,50000.0,95000.0,170000.0,40000.0,110000.0,150000.0,40000.0,85000.0,130000.0,100000.0,95000.0,180000.0,35000.0,120000.0,160000.0,50000.0,110000.0,40000.0,95000.0,140000.0,60000.0,110000.0,150000.0,60000.0,90000.0,180000.0,40000.0,120000.0,160000.0,70000.0,95000.0,180000.0,50000.0,95000.0,170000.0,35000.0,100000.0,150000.0,60000.0,85000.0,130000.0,65000.0,110000.0,180000.0,40000.0,90000.0,140000.0,60000.0,130000.0,160000.0,40000.0,100000.0,180000.0,55000.0,120000.0,150000.0,70000.0,95000.0,180000.0,50000.0,120000.0,170000.0,35000.0,100000.0,150000.0,60000.0,85000.0,130000.0,80000.0,95000.0,40000.0,120000.0,160000.0,65000.0,130000.0,180000.0,40000.0,100000.0,150000.0,55000.0,110000.0,180000.0,50000.0,130000.0,160000.0,60000.0,95000.0,170000.0,40000.0,90000.0,150000.0,70000.0,90000.0,170000.0,50000.0,150000.0,160000.0,60000.0,85000.0,180000.0,35000.0,110000.0,160000.0,55000.0,110000.0,180000.0,50000.0,130000.0,160000.0,60000.0,95000.0,170000.0,40000.0,90000.0,150000.0,70000.0,90000.0,170000.0,50000.0,150000.0,160000.0,60000.0,85000.0,170000.0,40000.0,90000.0,150000.0],"type":"scatter","xaxis":"x2","yaxis":"y2"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"xaxis":{"anchor":"y","domain":[0.0,0.45],"title":{"text":"Age"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Salary"}},"xaxis2":{"anchor":"y2","domain":[0.55,1.0],"title":{"text":"Years of Experience"}},"yaxis2":{"anchor":"x2","domain":[0.0,1.0],"title":{"text":"Salary"}},"title":{"text":"Salary vs age and years of experience"},"showlegend":false,"width":700,"height":325},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('de65a67a-f6e9-4fc0-8b26-d97a78d9baee');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+</div>
+</div><div class="column" style="width:10%;">
+
+</div></div>
+<aside><ol class="aside-footnotes"><li id="fn4"><p>See confidence intervals <a href="../code/03_linear_regression.html">here</a>.</p></li></ol></aside></section></section>
+<section>
+<section id="approach-2.-text-based-regression-with-a-llm" class="title-slide slide level1 center" data-background="#5B888C">
+<h1>Approach 2. Text-based regression with a LLM</h1>
+
+</section>
+<section id="about-the-model" class="slide level2">
+<h2>About the model</h2>
+<div class="small">
+<ul>
+<li>The goal of this approach was to fit a Text-Based Regression model to predict salary based on the job description provided by each individual.</li>
+<li>The pre-trained DistilBERT model, a Large Language Model (LLM) based on the Transformer architecture, was retrieved from the <a href="https://huggingface.co/distilbert/distilbert-base-uncased">Hugging Face</a> platform.</li>
+<li>The model was fine-tuned on the training data and its performance was evaluated on the test data.</li>
+</ul>
+<blockquote>
+<p>Using a LLM could be a good idea for this problem because it has the ability to capture complex patterns and relationships in text data, which may contain valuable insights for predicting salary beyond traditional numerical features.</p>
+</blockquote>
+</div>
+</section>
+<section id="results-1" class="slide level2">
+<h2>Results</h2>
+<div class="columns">
+<div class="column small" style="width:70%;">
+<ul>
+<li><p>The model shows a good performance when predicting salaries with new data:</p>
+<ul>
+<li>88.36% of the variance in the salary is explained by the predictors in the model.</li>
+<li>On average, the salary predictions made by the model with new data differ from the actual values by USD 16,404.05.</li>
+</ul></li>
+<li><p>Similar values of these metrics in train and test data indicate low risk of overfitting.</p></li>
+</ul>
+</div><div class="column" style="width:30%;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong>Set</strong></th>
+<th style="text-align: center;"><strong><span class="math inline">\(R^2\)</span></strong></th>
+<th style="text-align: center;"><strong>RSME</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><strong>Train</strong></td>
+<td style="text-align: center;">0.9094</td>
+<td style="text-align: center;">14445.76</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Test</strong></td>
+<td style="text-align: center;">0.8836</td>
+<td style="text-align: center;">16404.05</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</section>
+<section id="key-remarks" class="slide level2">
+<h2>Key remarks</h2>
+<div class="small">
+<ul>
+<li>Pretrained models like DistilBERT simplify text-based predictions by reducing manual feature engineering. This implementation is just an example of what can be achieved with such methodologies.</li>
+<li>Hyperparameter tuning (learning rate, batch size, epochs, etc.) and alternative preprocessing strategies could enhance performance but were not explored, as this was just a proof of concept.</li>
+<li>With no optimization by cross-validation techniques, DistilBERT performs similarly to linear regression in this case, likely due to the structured nature of salary prediction and the limited dataset size.<br>
+</li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="summing-up" class="title-slide slide level1 center" data-background="#5B888C">
+<h1>Summing-up</h1>
+
+</section>
+<section id="results-summary" class="slide level2">
+<h2>Results summary</h2>
+<p>Both trained models showed similar performance, with the linear regression model (LRM) slightly outperforming the DistilBERT model (LLM).</p>
+<p><br></p>
+<div class="columns small">
+<div class="column" style="width:45%;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong><span class="math inline">\(R^2\)</span></strong></th>
+<th style="text-align: center;"><strong>LRM</strong></th>
+<th style="text-align: center;"><strong>LLM</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><strong>Train</strong></td>
+<td style="text-align: center;">0.9231</td>
+<td style="text-align: center;">0.9094</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Test</strong></td>
+<td style="text-align: center;">0.8912</td>
+<td style="text-align: center;">0.8836</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column" style="width:45%;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong>RMSE</strong></th>
+<th style="text-align: center;"><strong>LRM</strong></th>
+<th style="text-align: center;"><strong>LLM</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><strong>Train</strong></td>
+<td style="text-align: center;">13372.68</td>
+<td style="text-align: center;">14445.76</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Test</strong></td>
+<td style="text-align: center;">15819.82</td>
+<td style="text-align: center;">16404.05</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</section>
+<section id="further-work" class="slide level2">
+<h2>Further work</h2>
+<div class="small">
+<ul>
+<li><p>Hyperparameter tuning for the LLM model (learning rate, batch size, epochs, etc.) was not performed and the training was done briefly in a personal computer. Exploring these issues could significantly improve its performance.</p></li>
+<li><p>Other machine learning techniques and aggregation methods (discriminant analysis, random forests, SVM, bagging, boosting, etc.) and aggretation methods could be evaluated and their hyperparameters could be tuned by cross-validation.</p></li>
+</ul>
+</div>
+</section>
+<section id="run-the-app" class="slide level2">
+<h2>Run the app</h2>
+<p><a href="shiny_embed.html">Choose any of these models and make predictions for new data in this app.</a></p>
 
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
@@ -357,6 +667,7 @@ Marcos Prunello
 </div>
 </div>
 </section></section>
+
     </div>
   </div>
 
@@ -408,7 +719,7 @@ Marcos Prunello
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: false,
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -513,7 +824,7 @@ Marcos Prunello
         previewLinks: false,
 
         // Transition style (none/fade/slide/convex/concave/zoom)
-        transition: 'none',
+        transition: 'fade',
 
         // Transition speed (default/fast/slow)
         transitionSpeed: 'default',

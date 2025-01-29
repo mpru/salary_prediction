@@ -57,7 +57,7 @@ website:
 format:
   html:
     theme: sandstone
-    css: website/styles.css
+    # css: website/styles.css
     toc: true
 
 

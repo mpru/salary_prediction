@@ -4884,8 +4884,6 @@ window.Quarto = {
 };
 </script>
 
-<style type="text/css">
-</style>
 </head>
 
 <body class="nav-fixed">
@@ -5056,7 +5054,7 @@ Remarks
 <tr class="odd">
 <td style="text-align: center;"><strong>Train</strong></td>
 <td style="text-align: center;">0.9231</td>
-<td style="text-align: center;">13372,68</td>
+<td style="text-align: center;">13372.68</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;"><strong>Test</strong></td>
@@ -5096,7 +5094,7 @@ Remarks
 </section>
 <section id="libraries-and-data" class="level2">
 <h2 class="anchored" data-anchor-id="libraries-and-data">Libraries and data</h2>
-<div id="1d800237" class="cell" data-execution_count="1">
+<div id="e6960894" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sys.path.append(os.path.join(os.getcwd(), <span class="st">&quot;code&quot;</span>))</span>
@@ -5121,7 +5119,7 @@ Remarks
 <p>The model shows a very good performance, with <span class="math inline">\(R^2: 0.923\)</span>, which indicates that 92.3% of the variance in the response (salary) is explained by the predictors in the model.</p>
 <p>On average, the salary predictions made by the model differ from the actual values by USD 13,372.68.</p>
 <p>The model underestimates the response for outlier cases with very high real salaries.</p>
-<div id="8ba52452" class="cell" data-execution_count="2">
+<div id="5ab75cc0" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model fitting</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>modelo <span class="op">=</span>  smf.ols(<span class="st">&#39;salary ~ age + gender + educ + title_cat + exp&#39;</span>, data <span class="op">=</span> train_df).fit()</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>modelo.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -5155,7 +5153,7 @@ Remarks
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>02:33:16</td>
+<td>16:02:37</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>-3221.4</td>
 </tr>
@@ -5314,7 +5312,7 @@ Remarks
 <br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
 </div>
 </div>
-<div id="c1542589" class="cell" data-execution_count="3">
+<div id="342fa305" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save predictions in train data</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>train_df[<span class="st">&#39;pred_salary&#39;</span>] <span class="op">=</span> modelo.predict(train_df)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -5329,7 +5327,7 @@ Remarks
 </code></pre>
 </div>
 </div>
-<div id="36fb50a3" class="cell" data-execution_count="4">
+<div id="81d8633b" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>scatter_plot_real_vs_pred(train_df, <span class="st">&#39;salary&#39;</span>, <span class="st">&#39;pred_salary&#39;</span>, <span class="st">&quot;Training data&quot;</span>, label <span class="op">=</span> <span class="st">&quot; - Salary (USD)&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -5352,7 +5350,7 @@ Remarks
 <li>Compared to having a Bachelor’s degree, a Master’s degree increases salary by an amount between USD 14,200 and USD 22,600, and a PhD increases it by an amount between USD 17,500 and USD 28,800.</li>
 <li>Compared to job positions related to being “Junior”, the increase in salaries lies between USD 8,390 and USD 18,800 for “Senior”, and between USD 7155 and USD 20,900 for “Leadership”. Other job positions don’t differ significantly from “Junior”.</li>
 </ul>
-<div id="3264df20" class="cell" data-execution_count="5">
+<div id="4ec88ab1" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Test Global F: </span><span class="sc">{</span>modelo<span class="sc">.</span>summary()<span class="sc">.</span>tables[<span class="dv">0</span>]<span class="sc">.</span>data[<span class="dv">0</span>][<span class="dv">3</span>]<span class="sc">}</span><span class="ss">&quot;</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>anova_lm(modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -5432,7 +5430,7 @@ Remarks
 <section id="evaluation-of-technical-conditions" class="level2">
 <h2 class="anchored" data-anchor-id="evaluation-of-technical-conditions">Evaluation of technical conditions</h2>
 <p>An exploratory residual analysis was conducted, and no significant violations of the model assumptions were detected, allowing the inferential conclusions to be considered valid. The residual distribution appears to have slightly heavy tails, but this is minor.</p>
-<div id="afccbc77" class="cell" data-execution_count="6">
+<div id="0c00dbce" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>analyze_residuals(modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -5448,7 +5446,7 @@ Remarks
 <p>The model shows a very good performance when predicting salaries with new data, with <span class="math inline">\(R^2: 0.8912\)</span>, which indicates that 89.12% of the variance in the response (salary) is explained by the predictors in the model.</p>
 <p>On average, the salary predictions made by the model with new data differ from the actual values by USD 15,819.82.</p>
 <p>As expected, these metrics are slightly worse than the ones for the train data, with no indication of overfitting.</p>
-<div id="c26c5691" class="cell" data-execution_count="7">
+<div id="d834666b" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Métricas para el conjunto de prueba</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>test_df[<span class="st">&#39;pred_salary&#39;</span>] <span class="op">=</span> modelo.predict(test_df)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>test_sin_na_pred <span class="op">=</span> test_df.dropna(subset <span class="op">=</span> <span class="st">&#39;pred_salary&#39;</span>)</span>
@@ -5460,7 +5458,7 @@ Remarks
 </code></pre>
 </div>
 </div>
-<div id="0804de40" class="cell" data-execution_count="8">
+<div id="37497256" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>scatter_plot_real_vs_pred(test_df, <span class="st">&#39;salary&#39;</span>, <span class="st">&#39;pred_salary&#39;</span>, <span class="st">&quot;Testing data&quot;</span>, label <span class="op">=</span> <span class="st">&quot; - Salary (USD)&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -5473,7 +5471,7 @@ Remarks
 </section>
 <section id="saving-the-trained-model" class="level2">
 <h2 class="anchored" data-anchor-id="saving-the-trained-model">Saving the trained model</h2>
-<div id="6970e9e0" class="cell" data-execution_count="9">
+<div id="a79919da" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>joblib.dump(modelo, <span class="st">&#39;../model_outputs/mod_reg_lin.pkl&#39;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>[&#39;../model_outputs/mod_reg_lin.pkl&#39;]</code></pre>

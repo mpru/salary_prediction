@@ -112,6 +112,146 @@
     "text": "Saving transformed data\n\nSave clean data\n\ndatos = datos.drop(columns=[\"id\"])\ndatos.to_csv('../data/clean_data.csv', index = False)\n\n\n\nCreate sample data\nThese files will can be used as examples when using the app for making predictions with the trained models.\n\n# Seleccionar al azar 5 filas y columnas específicas\nsample_rows = datos.sample(n = 5, random_state = 200)\nsample_rows[['age', 'gender', 'educ', 'title_cat', 'exp']].to_csv('../data/sample_data_vars.csv', index = False)\nsample_rows[['text']].to_csv('../data/sample_data_onlytext.csv', index = False)\nsample_rows[['age', 'gender']].to_csv('../data/sample_data_wrong.csv', index = False)"
   },
   {
+    "objectID": "website/presentation.html#goal",
+    "href": "website/presentation.html#goal",
+    "title": "Salary Prediction",
+    "section": "Goal",
+    "text": "Goal\nThe goal of this problem is to train a model that successfully predicts job salary based on a dataset with the following predictor variables:\n\nage,\nyears of experience,\ngender,\neducation,\njob title,\njob description."
+  },
+  {
+    "objectID": "website/presentation.html#two-approaches",
+    "href": "website/presentation.html#two-approaches",
+    "title": "Salary Prediction",
+    "section": "Two approaches",
+    "text": "Two approaches\n\nFor this sample project, two supervised learning methods have been chosen: a linear regression model (LRM) and a large language model (LLM) based on the Transformer architecture.\n\nThe LRM is a traditional and straightforward technique, yet very powerful in terms of its inferential and interpretative capabilities.\nThe LLM represents a more recent and powerful method for working with textual data, particularly effective because they utilize deep learning architectures to process and understand context in language, which could be useful given the nature of the predictors job title and job description."
+  },
+  {
+    "objectID": "website/presentation.html#data-preprocessing",
+    "href": "website/presentation.html#data-preprocessing",
+    "title": "Salary Prediction",
+    "section": "Data preprocessing",
+    "text": "Data preprocessing\nBefore training the models, the data was explored to address missing values, inconsistencies in observations, and to reduce the number of levels in categorical variables, among other preprocessing steps."
+  },
+  {
+    "objectID": "website/presentation.html#traintest-data-split",
+    "href": "website/presentation.html#traintest-data-split",
+    "title": "Salary Prediction",
+    "section": "Train/test data split",
+    "text": "Train/test data split\n\n\nDue to the small size of the dataset, a two-partition approach was used1.\nStratification based on the response variable was made to ensure similar distributions in both partitions.\nAll models were trained using the same partitions, to avoid bias: 80% for train and 20% for test.\n\n\nOther approaches with more partitions could be considered, as they may offer advantages in producing unbiased estimates of test error."
+  },
+  {
+    "objectID": "website/presentation.html#results",
+    "href": "website/presentation.html#results",
+    "title": "Salary Prediction",
+    "section": "Results",
+    "text": "Results\n\n\n\nThe overall model is highly significant and all predictors make significant contributions, as supported by the corresponding statistical tests1.\nThe model shows a good performance when predicting salaries with new data:\n\n89.12% of the variance in the salary is explained by the predictors in the model.\nOn average, the salary predictions made by the model with new data differ from the actual values by USD 15,819.82.\n\nSimilar values of these metrics in train and test data indicate low risk of overfitting.\n\n\n\n\n\nSet\n\\(R^2\\)\nRSME\n\n\n\n\nTrain\n0.9231\n13372,68\n\n\nTest\n0.8912\n15819.82\n\n\n\n\nNo major violations of model assumptions were detected."
+  },
+  {
+    "objectID": "website/presentation.html#key-effects",
+    "href": "website/presentation.html#key-effects",
+    "title": "Salary Prediction",
+    "section": "Key effects",
+    "text": "Key effects\n\n\nBased on the model estimates, on average1:\n\nA Master’s degree increases salary by $18,390, and a PhD increases it by $23,180 compared to individuals with a Bachelor’s degree.\nBeing in a Leadership role increases salary by $14,050, and being a Senior employee increases it by $13,590, compared to being a Junior.\nMen earn $7999.69 more than women.\n\n\n\n\n                                                \n\n\n\nSee confidence intervals here."
+  },
+  {
+    "objectID": "website/presentation.html#key-effects-1",
+    "href": "website/presentation.html#key-effects-1",
+    "title": "Salary Prediction",
+    "section": "Key effects",
+    "text": "Key effects\n\nBased on the model estimates, on average1: each additional year of age increases salary by 2,540.94 and each additional year of experience increases it by USD 2,497.27.\n\n\n\n\n\n\n\n\n                                                \n\n\n\n\n\nSee confidence intervals here."
+  },
+  {
+    "objectID": "website/presentation.html#about-the-model",
+    "href": "website/presentation.html#about-the-model",
+    "title": "Salary Prediction",
+    "section": "About the model",
+    "text": "About the model\n\n\nThe goal of this approach was to fit a Text-Based Regression model to predict salary based on the job description provided by each individual.\nThe pre-trained DistilBERT model, a Large Language Model (LLM) based on the Transformer architecture, was retrieved from the Hugging Face platform.\nThe model was fine-tuned on the training data and its performance was evaluated on the test data.\n\n\nUsing a LLM could be a good idea for this problem because it has the ability to capture complex patterns and relationships in text data, which may contain valuable insights for predicting salary beyond traditional numerical features."
+  },
+  {
+    "objectID": "website/presentation.html#results-1",
+    "href": "website/presentation.html#results-1",
+    "title": "Salary Prediction",
+    "section": "Results",
+    "text": "Results\n\n\n\nThe model shows a good performance when predicting salaries with new data:\n\n88.36% of the variance in the salary is explained by the predictors in the model.\nOn average, the salary predictions made by the model with new data differ from the actual values by USD 16,404.05.\n\nSimilar values of these metrics in train and test data indicate low risk of overfitting.\n\n\n\n\n\nSet\n\\(R^2\\)\nRSME\n\n\n\n\nTrain\n0.9094\n14445.76\n\n\nTest\n0.8836\n16404.05"
+  },
+  {
+    "objectID": "website/presentation.html#key-remarks",
+    "href": "website/presentation.html#key-remarks",
+    "title": "Salary Prediction",
+    "section": "Key remarks",
+    "text": "Key remarks\n\n\nPretrained models like DistilBERT simplify text-based predictions by reducing manual feature engineering. This implementation is just an example of what can be achieved with such methodologies.\nHyperparameter tuning (learning rate, batch size, epochs, etc.) and alternative preprocessing strategies could enhance performance but were not explored, as this was just a proof of concept.\nWith no optimization by cross-validation techniques, DistilBERT performs similarly to linear regression in this case, likely due to the structured nature of salary prediction and the limited dataset size."
+  },
+  {
+    "objectID": "website/presentation.html#results-summary",
+    "href": "website/presentation.html#results-summary",
+    "title": "Salary Prediction",
+    "section": "Results summary",
+    "text": "Results summary\nBoth trained models showed similar performance, with the linear regression model (LRM) slightly outperforming the DistilBERT model (LLM).\n\n\n\n\n\n\n\\(R^2\\)\nLRM\nLLM\n\n\n\n\nTrain\n0.9231\n0.9094\n\n\nTest\n0.8912\n0.8836\n\n\n\n\n\n\n\n\n\nRMSE\nLRM\nLLM\n\n\n\n\nTrain\n13372.68\n14445.76\n\n\nTest\n15819.82\n16404.05"
+  },
+  {
+    "objectID": "website/presentation.html#further-work",
+    "href": "website/presentation.html#further-work",
+    "title": "Salary Prediction",
+    "section": "Further work",
+    "text": "Further work\n\n\nHyperparameter tuning for the LLM model (learning rate, batch size, epochs, etc.) was not performed and the training was done briefly in a personal computer. Exploring these issues could significantly improve its performance.\nOther machine learning techniques and aggregation methods (discriminant analysis, random forests, SVM, bagging, boosting, etc.) and aggretation methods could be evaluated and their hyperparameters could be tuned by cross-validation."
+  },
+  {
+    "objectID": "website/presentation.html#run-the-app",
+    "href": "website/presentation.html#run-the-app",
+    "title": "Salary Prediction",
+    "section": "Run the app",
+    "text": "Run the app\nChoose any of these models and make predictions for new data in this app.\n\n\n\nBack to home"
+  },
+  {
+    "objectID": "website/shiny_embed.html",
+    "href": "website/shiny_embed.html",
+    "title": "Making salary predictions for new cases",
+    "section": "",
+    "text": "Caution\n\n\n\nThis page might take a minute to load as the server and environment get ready for making new predictions."
+  },
+  {
+    "objectID": "website/index.html",
+    "href": "website/index.html",
+    "title": "Salary Prediction: a Data Science Sample Project",
+    "section": "",
+    "text": "This website presents a supervised learning problem where the goal is to predict workers’ salaries.\nque hay en cada pestaña reprocibilidad, environment shiny, quarto"
+  },
+  {
+    "objectID": "website/index.html#about",
+    "href": "website/index.html#about",
+    "title": "Salary Prediction: a Data Science Sample Project",
+    "section": "",
+    "text": "This website presents a supervised learning problem where the goal is to predict workers’ salaries.\nque hay en cada pestaña reprocibilidad, environment shiny, quarto"
+  },
+  {
+    "objectID": "code/05_comparisons.html",
+    "href": "code/05_comparisons.html",
+    "title": "Model comparisons",
+    "section": "",
+    "text": "Goal\n\n\n\nThe goal of this section is to summarize the metrics that describe the performance of the trained models for salary prediction.\n\n\n\n\n\n\n\n\nRemarks\n\n\n\n\nBoth trained models showed similar performance, with the linear regression model slightly outperforming the DistilBERT model (LLM, Transformer-based).\n\nSince the latter was trained with few epochs and without any validation or hyperparameter optimization, it is expected that its performance could be significantly improved."
+  },
+  {
+    "objectID": "code/05_comparisons.html#summary",
+    "href": "code/05_comparisons.html#summary",
+    "title": "Model comparisons",
+    "section": "",
+    "text": "Goal\n\n\n\nThe goal of this section is to summarize the metrics that describe the performance of the trained models for salary prediction.\n\n\n\n\n\n\n\n\nRemarks\n\n\n\n\nBoth trained models showed similar performance, with the linear regression model slightly outperforming the DistilBERT model (LLM, Transformer-based).\n\nSince the latter was trained with few epochs and without any validation or hyperparameter optimization, it is expected that its performance could be significantly improved."
+  },
+  {
+    "objectID": "code/05_comparisons.html#performance-metrics",
+    "href": "code/05_comparisons.html#performance-metrics",
+    "title": "Model comparisons",
+    "section": "Performance metrics",
+    "text": "Performance metrics\nIn this problem, \\(R^2\\) (coefficient of determination) and RMSE (root mean squared error) were used to evaluate model performance:\n\n\\(R^2\\) measures the proportion of variance in the response variable (salary) explained by the model. A value close to 1 indicates a strong predictive ability, while a value near 0 suggests the model does not explain much of the variability. This metric is useful for assessing how well the model captures overall trends in the data.\nRMSE quantifies the average error in salary predictions, penalizing larger deviations more heavily than smaller ones. It provides an intuitive interpretation of model accuracy in the same units as the response variable (USD), making it easy to compare errors across different models.\n\nThese metrics were chosen because they complement each other: R² evaluates the explanatory power of the model, while RMSE provides a direct measure of prediction accuracy. Together, they offer a comprehensive assessment of model performance."
+  },
+  {
+    "objectID": "code/05_comparisons.html#results",
+    "href": "code/05_comparisons.html#results",
+    "title": "Model comparisons",
+    "section": "Results",
+    "text": "Results\n\n\n\n\n\n\n\n\\(R^2\\)\nLin. Reg.\nLLM\n\n\n\n\nTrain\n0.9231\n0.9094\n\n\nTest\n0.8912\n0.8836\n\n\n\n\n\n\n\n\n\nRMSE\nLin. Reg.\nLLM\n\n\n\n\nTrain\n13372.68\n14445.76\n\n\nTest\n15819.82\n16404.05"
+  },
+  {
     "objectID": "code/02_train_test_split.html",
     "href": "code/02_train_test_split.html",
     "title": "Data partitions",
@@ -147,74 +287,18 @@
     "text": "Checking similar distribution for salary\n\ntrain['salary'].describe()\n\ncount       298.000000\nmean     100486.577181\nstd       48077.674467\nmin       30000.000000\n25%       55000.000000\n50%       95000.000000\n75%      140000.000000\nmax      250000.000000\nName: salary, dtype: float64\n\n\n\ntest['salary'].describe()\n\ncount        75.000000\nmean     101400.000000\nstd       48403.986881\nmin       35000.000000\n25%       57500.000000\n50%       95000.000000\n75%      140000.000000\nmax      220000.000000\nName: salary, dtype: float64"
   },
   {
-    "objectID": "code/05_comparisons.html",
-    "href": "code/05_comparisons.html",
-    "title": "Model comparisons",
-    "section": "",
-    "text": "Goal\n\n\n\nThe goal of this section is to summarize the metrics that describe the performance of the trained models for salary prediction.\n\n\n\n\n\n\n\n\nRemarks\n\n\n\n\nBoth trained models showed similar performance, with the linear regression model slightly outperforming the DistilBERT model (LLM, Transformer-based).\n\nSince the latter was trained with few epochs and without any validation or hyperparameter optimization, it is expected that its performance could be significantly improved."
-  },
-  {
-    "objectID": "code/05_comparisons.html#summary",
-    "href": "code/05_comparisons.html#summary",
-    "title": "Model comparisons",
-    "section": "",
-    "text": "Goal\n\n\n\nThe goal of this section is to summarize the metrics that describe the performance of the trained models for salary prediction.\n\n\n\n\n\n\n\n\nRemarks\n\n\n\n\nBoth trained models showed similar performance, with the linear regression model slightly outperforming the DistilBERT model (LLM, Transformer-based).\n\nSince the latter was trained with few epochs and without any validation or hyperparameter optimization, it is expected that its performance could be significantly improved."
-  },
-  {
-    "objectID": "code/05_comparisons.html#performance-metrics",
-    "href": "code/05_comparisons.html#performance-metrics",
-    "title": "Model comparisons",
-    "section": "Performance metrics",
-    "text": "Performance metrics\nIn this problem, \\(R^2\\) (coefficient of determination) and RMSE (root mean squared error) were used to evaluate model performance:\n\n\\(R^2\\) measures the proportion of variance in the response variable (salary) explained by the model. A value close to 1 indicates a strong predictive ability, while a value near 0 suggests the model does not explain much of the variability. This metric is useful for assessing how well the model captures overall trends in the data.\nRMSE quantifies the average error in salary predictions, penalizing larger deviations more heavily than smaller ones. It provides an intuitive interpretation of model accuracy in the same units as the response variable (USD), making it easy to compare errors across different models.\n\nThese metrics were chosen because they complement each other: R² evaluates the explanatory power of the model, while RMSE provides a direct measure of prediction accuracy. Together, they offer a comprehensive assessment of model performance."
-  },
-  {
-    "objectID": "code/05_comparisons.html#results",
-    "href": "code/05_comparisons.html#results",
-    "title": "Model comparisons",
-    "section": "Results",
-    "text": "Results\n\n\n\n\n\n\n\n\\(R^2\\)\nLin. Reg.\nLLM\n\n\n\n\nTrain\n0.9231\n0.9094\n\n\nTest\n0.8912\n0.8836\n\n\n\n\n\n\n\n\n\nRMSE\nLin. Reg.\nLLM\n\n\n\n\nTrain\n13372.68\n14445.76\n\n\nTest\n15819.82\n16404.05"
-  },
-  {
-    "objectID": "website/index.html",
-    "href": "website/index.html",
-    "title": "Salary prediction: a data science sample project",
-    "section": "",
-    "text": "work in progress"
-  },
-  {
-    "objectID": "website/presentation.html#diapo1",
-    "href": "website/presentation.html#diapo1",
-    "title": "titulo",
-    "section": "diapo1",
-    "text": "diapo1\ncontenido"
-  },
-  {
-    "objectID": "website/presentation.html#diapo2",
-    "href": "website/presentation.html#diapo2",
-    "title": "titulo",
-    "section": "diapo2",
-    "text": "diapo2\ncontenido\n\n\n\nBack to home"
-  },
-  {
-    "objectID": "website/shiny_embed.html",
-    "href": "website/shiny_embed.html",
-    "title": "Making salary predictions for new cases",
-    "section": "",
-    "text": "Caution\n\n\n\nThis page might take a minute to load as the server and environment get ready for making new predictions."
-  },
-  {
     "objectID": "code/03_linear_regression.html",
     "href": "code/03_linear_regression.html",
     "title": "Salary prediction using a linear regression model",
     "section": "",
-    "text": "Goal\n\n\n\nThe goal of this script is to fit a multiple linear regression model to predict the response variable salary based on the remaining available variables. Additionally, statistical inference methodologies are applied to estimate and quantify the level of association between the predictors and the response, measuring the degree of confidence in the conclusions. The technical conditions that the model must meet to ensure valid conclusions are assessed, and finally, the model is used to make predictions on the test data to evaluate its performance.\n\n\n\n\n\n\n\n\nRemarks\n\n\n\nWhy Use Regression\n\nAlthough it is a classic and simple methodology, regression models are highly useful and flexible, offering the advantage of clearly interpreting the effect of predictors on the response variable, along with probabilistic conclusions.\n\nThis model serves as a baseline for comparison, any more advanced technique should outperform it to be considered.\n\nPerformance in Predicting Salary\n\nThe model shows a very good performance when predicting salaries with new data, with \\(R^2: 0.8912\\), which indicates that 89.12% of the variance in the response (salary) is explained by the predictors in the model.\nOn average, the salary predictions made by the model with new data differ from the actual values by USD 15,819.82.\nSimilar values of these metrics in train and test data indicate low risk of overfitting.\n\n\n\n\nSet\n\\(R^2\\)\nRSME\n\n\n\n\nTrain\n0.9231\n13372,68\n\n\nTest\n0.8912\n15819.82\n\n\n\n\nResults\n\nThe overall model is highly significant (\\(F\\)-stat: 428.9, p-value &lt; 0.0001).\n\nAll predictors make significant contributions, as supported by ANOVA results.\n\nNo major violations of model assumptions were detected.\nKey effects. On average, and holding all other factors constant:\n\nA Master’s degree increases salary by $18,390, and a PhD increases it by $23,180 compared to individuals with a Bachelor’s degree.\nBeing in a Leadership role increases salary by $14,050, and being a Senior employee increases it by $13,590, compared to being a Junior.\nEach additional year of age increases salary by $2540.94 and each additional year of experience increases it by $2497.27\nMen earn $7999.69 more than women."
+    "text": "Goal\n\n\n\nThe goal of this script is to fit a multiple linear regression model to predict the response variable salary based on the remaining available variables. Additionally, statistical inference methodologies are applied to estimate and quantify the level of association between the predictors and the response, measuring the degree of confidence in the conclusions. The technical conditions that the model must meet to ensure valid conclusions are assessed, and finally, the model is used to make predictions on the test data to evaluate its performance.\n\n\n\n\n\n\n\n\nRemarks\n\n\n\nWhy Use Regression\n\nAlthough it is a classic and simple methodology, regression models are highly useful and flexible, offering the advantage of clearly interpreting the effect of predictors on the response variable, along with probabilistic conclusions.\n\nThis model serves as a baseline for comparison, any more advanced technique should outperform it to be considered.\n\nPerformance in Predicting Salary\n\nThe model shows a very good performance when predicting salaries with new data, with \\(R^2: 0.8912\\), which indicates that 89.12% of the variance in the response (salary) is explained by the predictors in the model.\nOn average, the salary predictions made by the model with new data differ from the actual values by USD 15,819.82.\nSimilar values of these metrics in train and test data indicate low risk of overfitting.\n\n\n\n\nSet\n\\(R^2\\)\nRSME\n\n\n\n\nTrain\n0.9231\n13372.68\n\n\nTest\n0.8912\n15819.82\n\n\n\n\nResults\n\nThe overall model is highly significant (\\(F\\)-stat: 428.9, p-value &lt; 0.0001).\n\nAll predictors make significant contributions, as supported by ANOVA results.\n\nNo major violations of model assumptions were detected.\nKey effects. On average, and holding all other factors constant:\n\nA Master’s degree increases salary by $18,390, and a PhD increases it by $23,180 compared to individuals with a Bachelor’s degree.\nBeing in a Leadership role increases salary by $14,050, and being a Senior employee increases it by $13,590, compared to being a Junior.\nEach additional year of age increases salary by $2540.94 and each additional year of experience increases it by $2497.27\nMen earn $7999.69 more than women."
   },
   {
     "objectID": "code/03_linear_regression.html#summary",
     "href": "code/03_linear_regression.html#summary",
     "title": "Salary prediction using a linear regression model",
     "section": "",
-    "text": "Goal\n\n\n\nThe goal of this script is to fit a multiple linear regression model to predict the response variable salary based on the remaining available variables. Additionally, statistical inference methodologies are applied to estimate and quantify the level of association between the predictors and the response, measuring the degree of confidence in the conclusions. The technical conditions that the model must meet to ensure valid conclusions are assessed, and finally, the model is used to make predictions on the test data to evaluate its performance.\n\n\n\n\n\n\n\n\nRemarks\n\n\n\nWhy Use Regression\n\nAlthough it is a classic and simple methodology, regression models are highly useful and flexible, offering the advantage of clearly interpreting the effect of predictors on the response variable, along with probabilistic conclusions.\n\nThis model serves as a baseline for comparison, any more advanced technique should outperform it to be considered.\n\nPerformance in Predicting Salary\n\nThe model shows a very good performance when predicting salaries with new data, with \\(R^2: 0.8912\\), which indicates that 89.12% of the variance in the response (salary) is explained by the predictors in the model.\nOn average, the salary predictions made by the model with new data differ from the actual values by USD 15,819.82.\nSimilar values of these metrics in train and test data indicate low risk of overfitting.\n\n\n\n\nSet\n\\(R^2\\)\nRSME\n\n\n\n\nTrain\n0.9231\n13372,68\n\n\nTest\n0.8912\n15819.82\n\n\n\n\nResults\n\nThe overall model is highly significant (\\(F\\)-stat: 428.9, p-value &lt; 0.0001).\n\nAll predictors make significant contributions, as supported by ANOVA results.\n\nNo major violations of model assumptions were detected.\nKey effects. On average, and holding all other factors constant:\n\nA Master’s degree increases salary by $18,390, and a PhD increases it by $23,180 compared to individuals with a Bachelor’s degree.\nBeing in a Leadership role increases salary by $14,050, and being a Senior employee increases it by $13,590, compared to being a Junior.\nEach additional year of age increases salary by $2540.94 and each additional year of experience increases it by $2497.27\nMen earn $7999.69 more than women."
+    "text": "Goal\n\n\n\nThe goal of this script is to fit a multiple linear regression model to predict the response variable salary based on the remaining available variables. Additionally, statistical inference methodologies are applied to estimate and quantify the level of association between the predictors and the response, measuring the degree of confidence in the conclusions. The technical conditions that the model must meet to ensure valid conclusions are assessed, and finally, the model is used to make predictions on the test data to evaluate its performance.\n\n\n\n\n\n\n\n\nRemarks\n\n\n\nWhy Use Regression\n\nAlthough it is a classic and simple methodology, regression models are highly useful and flexible, offering the advantage of clearly interpreting the effect of predictors on the response variable, along with probabilistic conclusions.\n\nThis model serves as a baseline for comparison, any more advanced technique should outperform it to be considered.\n\nPerformance in Predicting Salary\n\nThe model shows a very good performance when predicting salaries with new data, with \\(R^2: 0.8912\\), which indicates that 89.12% of the variance in the response (salary) is explained by the predictors in the model.\nOn average, the salary predictions made by the model with new data differ from the actual values by USD 15,819.82.\nSimilar values of these metrics in train and test data indicate low risk of overfitting.\n\n\n\n\nSet\n\\(R^2\\)\nRSME\n\n\n\n\nTrain\n0.9231\n13372.68\n\n\nTest\n0.8912\n15819.82\n\n\n\n\nResults\n\nThe overall model is highly significant (\\(F\\)-stat: 428.9, p-value &lt; 0.0001).\n\nAll predictors make significant contributions, as supported by ANOVA results.\n\nNo major violations of model assumptions were detected.\nKey effects. On average, and holding all other factors constant:\n\nA Master’s degree increases salary by $18,390, and a PhD increases it by $23,180 compared to individuals with a Bachelor’s degree.\nBeing in a Leadership role increases salary by $14,050, and being a Senior employee increases it by $13,590, compared to being a Junior.\nEach additional year of age increases salary by $2540.94 and each additional year of experience increases it by $2497.27\nMen earn $7999.69 more than women."
   },
   {
     "objectID": "code/03_linear_regression.html#methodology",
@@ -235,7 +319,7 @@
     "href": "code/03_linear_regression.html#training",
     "title": "Salary prediction using a linear regression model",
     "section": "Training",
-    "text": "Training\nThe model shows a very good performance, with \\(R^2: 0.923\\), which indicates that 92.3% of the variance in the response (salary) is explained by the predictors in the model.\nOn average, the salary predictions made by the model differ from the actual values by USD 13,372.68.\nThe model underestimates the response for outlier cases with very high real salaries.\n\n# Model fitting\nmodelo =  smf.ols('salary ~ age + gender + educ + title_cat + exp', data = train_df).fit()\nmodelo.summary()\n\n\nOLS Regression Results\n\n\nDep. Variable:\nsalary\nR-squared:\n0.923\n\n\nModel:\nOLS\nAdj. R-squared:\n0.921\n\n\nMethod:\nLeast Squares\nF-statistic:\n428.9\n\n\nDate:\nWed, 29 Jan 2025\nProb (F-statistic):\n2.12e-154\n\n\nTime:\n02:33:16\nLog-Likelihood:\n-3221.4\n\n\nNo. Observations:\n295\nAIC:\n6461.\n\n\nDf Residuals:\n286\nBIC:\n6494.\n\n\nDf Model:\n8\n\n\n\n\nCovariance Type:\nnonrobust\n\n\n\n\n\n\n\n\n\n\n\ncoef\nstd err\nt\nP&gt;|t|\n[0.025\n0.975]\n\n\nIntercept\n-4.022e+04\n1.54e+04\n-2.616\n0.009\n-7.05e+04\n-9962.527\n\n\ngender[T.Male]\n7998.6856\n1607.752\n4.975\n0.000\n4834.158\n1.12e+04\n\n\neduc[T.Master's]\n1.839e+04\n2115.086\n8.695\n0.000\n1.42e+04\n2.26e+04\n\n\neduc[T.PhD]\n2.318e+04\n2873.911\n8.066\n0.000\n1.75e+04\n2.88e+04\n\n\ntitle_cat[T.Leadership]\n1.405e+04\n3501.546\n4.012\n0.000\n7155.489\n2.09e+04\n\n\ntitle_cat[T.Other]\n375.2237\n2746.080\n0.137\n0.891\n-5029.868\n5780.315\n\n\ntitle_cat[T.Senior]\n1.359e+04\n2640.661\n5.146\n0.000\n8390.865\n1.88e+04\n\n\nage\n2540.9370\n565.687\n4.492\n0.000\n1427.499\n3654.375\n\n\nexp\n2497.2653\n641.125\n3.895\n0.000\n1235.344\n3759.187\n\n\n\n\n\n\n\n\nOmnibus:\n56.291\nDurbin-Watson:\n1.626\n\n\nProb(Omnibus):\n0.000\nJarque-Bera (JB):\n289.301\n\n\nSkew:\n0.642\nProb(JB):\n1.51e-63\n\n\nKurtosis:\n7.678\nCond. No.\n774.\n\n\n\nNotes:[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n\n\n\n# Save predictions in train data\ntrain_df['pred_salary'] = modelo.predict(train_df)\n\n# Performance metrics\n# puede haber NaN en casos con datos faltantes en predictoras\ntrain_sin_na_pred = train_df.dropna(subset = 'pred_salary') \nmetrics(train_sin_na_pred['salary'], train_sin_na_pred['pred_salary'], \"train\")\n\nMétricas para train:\n - R2: 0.9231\n - RMSE: 13372.6827\n\n\n\n\nscatter_plot_real_vs_pred(train_df, 'salary', 'pred_salary', \"Training data\", label = \" - Salary (USD)\")"
+    "text": "Training\nThe model shows a very good performance, with \\(R^2: 0.923\\), which indicates that 92.3% of the variance in the response (salary) is explained by the predictors in the model.\nOn average, the salary predictions made by the model differ from the actual values by USD 13,372.68.\nThe model underestimates the response for outlier cases with very high real salaries.\n\n# Model fitting\nmodelo =  smf.ols('salary ~ age + gender + educ + title_cat + exp', data = train_df).fit()\nmodelo.summary()\n\n\nOLS Regression Results\n\n\nDep. Variable:\nsalary\nR-squared:\n0.923\n\n\nModel:\nOLS\nAdj. R-squared:\n0.921\n\n\nMethod:\nLeast Squares\nF-statistic:\n428.9\n\n\nDate:\nWed, 29 Jan 2025\nProb (F-statistic):\n2.12e-154\n\n\nTime:\n16:02:37\nLog-Likelihood:\n-3221.4\n\n\nNo. Observations:\n295\nAIC:\n6461.\n\n\nDf Residuals:\n286\nBIC:\n6494.\n\n\nDf Model:\n8\n\n\n\n\nCovariance Type:\nnonrobust\n\n\n\n\n\n\n\n\n\n\n\ncoef\nstd err\nt\nP&gt;|t|\n[0.025\n0.975]\n\n\nIntercept\n-4.022e+04\n1.54e+04\n-2.616\n0.009\n-7.05e+04\n-9962.527\n\n\ngender[T.Male]\n7998.6856\n1607.752\n4.975\n0.000\n4834.158\n1.12e+04\n\n\neduc[T.Master's]\n1.839e+04\n2115.086\n8.695\n0.000\n1.42e+04\n2.26e+04\n\n\neduc[T.PhD]\n2.318e+04\n2873.911\n8.066\n0.000\n1.75e+04\n2.88e+04\n\n\ntitle_cat[T.Leadership]\n1.405e+04\n3501.546\n4.012\n0.000\n7155.489\n2.09e+04\n\n\ntitle_cat[T.Other]\n375.2237\n2746.080\n0.137\n0.891\n-5029.868\n5780.315\n\n\ntitle_cat[T.Senior]\n1.359e+04\n2640.661\n5.146\n0.000\n8390.865\n1.88e+04\n\n\nage\n2540.9370\n565.687\n4.492\n0.000\n1427.499\n3654.375\n\n\nexp\n2497.2653\n641.125\n3.895\n0.000\n1235.344\n3759.187\n\n\n\n\n\n\n\n\nOmnibus:\n56.291\nDurbin-Watson:\n1.626\n\n\nProb(Omnibus):\n0.000\nJarque-Bera (JB):\n289.301\n\n\nSkew:\n0.642\nProb(JB):\n1.51e-63\n\n\nKurtosis:\n7.678\nCond. No.\n774.\n\n\n\nNotes:[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n\n\n\n# Save predictions in train data\ntrain_df['pred_salary'] = modelo.predict(train_df)\n\n# Performance metrics\n# puede haber NaN en casos con datos faltantes en predictoras\ntrain_sin_na_pred = train_df.dropna(subset = 'pred_salary') \nmetrics(train_sin_na_pred['salary'], train_sin_na_pred['pred_salary'], \"train\")\n\nMétricas para train:\n - R2: 0.9231\n - RMSE: 13372.6827\n\n\n\n\nscatter_plot_real_vs_pred(train_df, 'salary', 'pred_salary', \"Training data\", label = \" - Salary (USD)\")"
   },
   {
     "objectID": "code/03_linear_regression.html#inference",

@@ -1,17 +1,285 @@
 ---
-title: "titulo"
-subtitle: "subtitulo"
+title: "Salary Prediction"
+subtitle: "A Data Science Sample Project"
 author: "Marcos Prunello"
-format: revealjs
+format: 
+  revealjs: 
+    theme: slides.scss
+    transition: fade
+    slide-number: true
 footer: "[Back to home](index.html)"
 ---
 
-# portada1 {background="#43464B"}
+```{python}
+#| include: false
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import plotly.figure_factory as ff
+from plotly.subplots import make_subplots
+import plotly.tools as tls
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-## diapo1
+# Cargar los datos
+datos = pd.read_csv('../data/clean_data.csv')
+```
 
-contenido
+# About this problem {background="#5B888C"}
 
-## diapo2
+## Goal
 
-contenido
+The goal of this problem is to train a model that successfully predicts **job salary** based on a dataset with the following predictor variables: 
+
+- age, 
+- years of experience, 
+- gender, 
+- education, 
+- job title, 
+- job description.
+
+## Two approaches
+
+::: {.small}
+For this sample project, two supervised learning methods have been chosen: a **linear regression model (LRM)** and a **large language model (LLM)** based on the Transformer architecture.  
+
+-  The **LRM** is a traditional and straightforward technique, yet very powerful in terms of its inferential and interpretative capabilities.
+- The **LLM** represents a more recent and powerful method for working with textual data, particularly effective because they utilize deep learning architectures to process and understand context in language, which could be useful given the nature of the predictors job title and job description.
+:::
+
+## Data preprocessing
+
+Before training the models, the data was explored to address missing values, inconsistencies in observations, and to reduce the number of levels in categorical variables, among other preprocessing steps.
+
+## Train/test data split
+
+::: {.small}
+- Due to the small size of the dataset, a two-partition approach was used^[Other approaches with more partitions could be considered, as they may offer advantages in producing unbiased estimates of test error.].
+- Stratification based on the response variable was made to ensure similar distributions in both partitions.
+- All models were trained using the same partitions, to avoid bias: 80% for train and 20% for test.
+:::
+
+
+# Approach 1. Linear regression model {background="#5B888C"}
+
+## Results
+
+::: columns
+::: {.column width="70%" .small}
+- The overall model is highly significant and all predictors make significant contributions, as supported by the corresponding statistical tests^[No major violations of model assumptions were detected.].
+- The model shows a good performance when predicting salaries with new data:
+
+	- 89.12% of the variance in the salary is explained by the predictors in the model. 
+	- On average, the salary predictions made by the model with new data differ from the actual values by USD 15,819.82.
+	
+- Similar values of these metrics in train and test data indicate low risk of overfitting.
+:::
+
+
+::: {.column width="30%"}
+|  **Set**  | **$R^2$** | **RSME** |
+|:---------:|:---------:|:--------:|
+| **Train** |   0.9231  | 13372,68 |
+|  **Test** |   0.8912  | 15819.82 |
+:::
+:::
+
+## Key effects
+
+::: columns
+::: {.column width="50%" .small}
+Based on the model estimates, on average^[See confidence intervals [here](../code/03_linear_regression.html).]:
+
+- A Master's degree increases salary by $18,390, and a PhD increases it by $23,180 compared to individuals with a Bachelor's degree.
+- Being in a Leadership role increases salary by $14,050, and being a Senior employee increases it by $13,590, compared to being a Junior.
+- Men earn $7999.69 more than women.
+:::
+
+::: {.column width="50%"}
+
+```{python}
+# Figura con boxplots de salary vs categorical variables
+fig_box = make_subplots(rows=3, cols=1)
+
+# Boxplot de 'salary' y 'gender'
+fig_box.add_trace(
+    go.Box(y=datos['gender'], x=datos['salary'], name='Gender', orientation = 'h', marker=dict(color='blue')),
+    row=1, col=1
+)
+
+# Boxplot de 'salary' y 'educ'
+fig_box.add_trace(
+    go.Box(y=datos['educ'], x=datos['salary'], name='Education',  orientation = 'h', marker=dict(color='blue')),
+    row=2, col=1
+)
+
+# Boxplot de 'salary' y 'title_cat'
+fig_box.add_trace(
+    go.Box(y=datos['title_cat'], x=datos['salary'], name='Title Category', orientation = 'h', marker=dict(color='blue')),
+    row=3, col=1
+)
+
+fig_box.update_layout(
+    title_text="Salary by gender, education and job title",
+    xaxis3_title="Salary",
+    yaxis1_title = "Gender",
+    yaxis2_title = "Education",
+    yaxis3_title = "Job title related to",
+    showlegend=False,
+    width = 450,
+    height = 450
+)
+fig_box.show()
+```
+:::
+:::
+
+## Key effects
+
+::: {.small}
+Based on the model estimates, on average^[See confidence intervals [here](../code/03_linear_regression.html).]: each additional year of age increases salary by 2,540.94 and each additional year of experience increases it by USD 2,497.27.
+:::
+
+<br>
+
+::: columns
+::: {.column width="10%"}
+
+:::
+
+::: {.column width="80%"}
+```{python}
+#| fig-align: "center"
+# Crear la figura con dos paneles (subplots)
+fig = make_subplots(rows=1, cols=2)
+
+# Agregar el gráfico de dispersión para 'salary' vs 'age'
+fig.add_trace(
+    go.Scatter(
+        x=datos['age'],
+        y=datos['salary'],
+        mode='markers',  # Puntos
+        marker=dict(color='blue', opacity=0.5),  # Color azul y transparencia
+    ),
+    row=1, col=1
+)
+
+# Agregar el gráfico de dispersión para 'salary' vs 'exp'
+fig.add_trace(
+    go.Scatter(
+        x=datos['exp'],
+        y=datos['salary'],
+        mode='markers',  # Puntos
+        marker=dict(color='blue', opacity=0.5),  # Color azul y transparencia
+    ),
+    row=1, col=2
+)
+
+# Actualizar los ejes y la configuración del gráfico
+fig.update_layout(
+    showlegend=False,  
+    xaxis_title="Age", 
+    yaxis_title="Salary", 
+    yaxis2_title="Salary", 
+    xaxis2_title="Years of Experience", 
+    # template="plotly_white",
+    title_text="Salary vs age and years of experience",
+    width = 700,
+    height = 325
+)
+
+# Mostrar la figura
+fig.show()
+```
+:::
+
+::: {.column width="10%"}
+
+:::
+:::
+
+
+# Approach 2. Text-based regression with a LLM {background="#5B888C"}
+
+## About the model
+
+::: {.small}
+- The goal of this approach was to fit a Text-Based Regression model to predict salary based on the job description provided by each individual.
+- The pre-trained DistilBERT model, a Large Language Model (LLM) based on the Transformer architecture, was retrieved from the [Hugging Face](https://huggingface.co/distilbert/distilbert-base-uncased) platform. 
+- The model was fine-tuned on the training data and its performance was evaluated on the test data.
+
+> Using a LLM could be a good idea for this problem because it has the ability to capture complex patterns and relationships in text data, which may contain valuable insights for predicting salary beyond traditional numerical features.
+:::
+
+## Results
+
+::: columns
+::: {.column width="70%" .small}
+- The model shows a good performance when predicting salaries with new data:
+
+	- 88.36% of the variance in the salary is explained by the predictors in the model. 
+	- On average, the salary predictions made by the model with new data differ from the actual values by USD 16,404.05.
+	
+- Similar values of these metrics in train and test data indicate low risk of overfitting.
+:::
+
+
+::: {.column width="30%"}
+|  **Set**  | **$R^2$** | **RSME** |
+|:---------:|:---------:|:--------:|
+| **Train** |   0.9094  | 14445.76 |
+|  **Test** |   0.8836  | 16404.05 |
+:::
+:::
+
+## Key remarks
+
+::: {.small}
+- Pretrained models like DistilBERT simplify text-based predictions by reducing manual feature engineering. This implementation is just an example of what can be achieved with such methodologies.
+- Hyperparameter tuning (learning rate, batch size, epochs, etc.) and alternative preprocessing strategies could enhance performance but were not explored, as this was just a proof of concept.
+- With no optimization by cross-validation techniques, DistilBERT performs similarly to linear regression in this case, likely due to the structured nature of salary prediction and the limited dataset size.  
+:::
+
+
+# Summing-up {background="#5B888C"}
+
+## Results summary
+
+Both trained models showed similar performance, with the linear regression model (LRM) slightly outperforming the DistilBERT model (LLM).  
+
+<br>
+
+:::: {.columns .small}
+
+
+::: {.column width="45%"}
+|  **$R^2$**  | **LRM** | **LLM**  |
+|:-----------:|:-------------:|:--------:|
+| **Train**   |   0.9231      | 0.9094   |
+|  **Test**   |   0.8912      | 0.8836   |
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+|  **RMSE**   | **LRM** | **LLM**  |
+|:-----------:|:-------------:|:--------:|
+| **Train**   |   13372.68    | 14445.76 |
+|  **Test**   |   15819.82    | 16404.05 |
+:::
+
+::::
+
+## Further work
+
+::: {.small}
+- Hyperparameter tuning for the LLM model (learning rate, batch size, epochs, etc.) was not performed and the training was done briefly in a personal computer. Exploring these issues could significantly improve its performance.
+
+- Other machine learning techniques and aggregation methods (discriminant analysis, random forests, SVM, bagging, boosting, etc.) and aggretation methods could be evaluated and their hyperparameters could be tuned by cross-validation.
+:::
+
+## Run the app 
+
+[Choose any of these models and make predictions for new data in this app.](shiny_embed.html)
+

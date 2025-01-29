@@ -1,5 +1,15 @@
 ---
-title: "Salary prediction: a Data Science sample project"
+title: "Salary Prediction: a Data Science Sample Project"
+author: "Marcos Prunello"
+date: "January 2025"
+date-format: "MMMM, YYYY"
 ---
 
-work in progress
+## About
+
+This website presents a supervised learning problem where the goal is to predict workers' salaries. 
+
+que hay en cada pestaña
+reprocibilidad, environment
+shiny, quarto
+
