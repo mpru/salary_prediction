@@ -1,0 +1,64 @@
+---
+title: "Model comparisons"
+format:
+    html:
+        embed-resources: true
+---
+
+## Summary
+
+::: {.callout-tip}
+## Goal
+
+The goal of this section is to summarize the metrics that describe the performance of the trained models for salary prediction.
+:::
+
+::: {.callout-note}
+## Remarks
+
+- Both trained models showed similar performance, with the linear regression model slightly outperforming the DistilBERT model (LLM, Transformer-based).  
+- Since the latter was trained with few epochs and without any validation or hyperparameter optimization, it is expected that its performance could be significantly improved.
+:::
+
+
+## Performance metrics
+
+In this problem, **$R^2$ (coefficient of determination)** and **RMSE (root mean squared error)** were used to evaluate model performance:
+
+- **$R^2$ measures the proportion of variance in the response variable (salary) explained by the model.** A value close to 1 indicates a strong predictive ability, while a value near 0 suggests the model does not explain much of the variability. This metric is useful for assessing how well the model captures overall trends in the data.  
+
+- **RMSE quantifies the average error in salary predictions, penalizing larger deviations more heavily than smaller ones.** It provides an intuitive interpretation of model accuracy in the same units as the response variable (USD), making it easy to compare errors across different models.  
+
+These metrics were chosen because they complement each other: **R² evaluates the explanatory power of the model, while RMSE provides a direct measure of prediction accuracy.** Together, they offer a comprehensive assessment of model performance.
+
+## Results
+
+:::: {.columns}
+
+::: {.column width="17.5%"}
+:::
+
+::: {.column width="30%"}
+|  **$R^2$**  | **Lin. Reg.** | **LLM**  |
+|:-----------:|:-------------:|:--------:|
+| **Train**   |   0.9231      | 0.9094   |
+|  **Test**   |   0.8912      | 0.8836   |
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="30%"}
+|  **RMSE**   | **Lin. Reg.** | **LLM**  |
+|:-----------:|:-------------:|:--------:|
+| **Train**   |   13372.68    | 14445.76 |
+|  **Test**   |   15819.82    | 16404.05 |
+:::
+
+::: {.column width="17.5%"}
+:::
+
+::::
+
+
+<!-- para mejorar: no hardcodear estos valores, tomar de los objetos guardados -->
