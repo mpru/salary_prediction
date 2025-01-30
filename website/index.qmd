@@ -27,3 +27,4 @@ This project follows good practices to ensure reproducibility and maintainabilit
 - **Version Control**: The entire project is managed using Git and hosted on GitHub.
 - **Environment Management**: A Conda environment is provided to guarantee dependency consistency.
 - **Quarto for Documentation**: Instead of traditional Jupyter notebooks, Quarto has been used for better organization and presentation of results.
+- **Ease of making new predictions**: through an app developed with Shiny for Python, hosted in this [repo](https://github.com/mpru/shiny_salary).

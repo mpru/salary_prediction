@@ -4,6 +4,8 @@ title: "Making salary predictions for new cases"
 
 ::: {.callout-caution}
 This page might take a minute to load as the server and environment get ready for making new predictions.
+
+This app was developed in this [repo](https://github.com/mpru/shiny_salary).
 :::
 
 ```{=html}
